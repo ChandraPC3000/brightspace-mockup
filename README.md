@@ -61,8 +61,11 @@ Edit `assets/brands.js`, isi `desc` + `source`:
 ## Yang dummy (jangan dianggap data asli)
 
 - **Logo brand** = monogram inisial. Isi properti `logo` pada `assets/brands.js` untuk memakai logo asli.
-- **Jumlah outlet di SPBU, jumlah SPBU terpasang, luas, jumlah SPBU per kota** = angka contoh untuk demo tata letak.
+- **Jumlah outlet di SPBU, jumlah SPBU terpasang, jumlah SPBU per kota** = angka contoh untuk demo tata letak.
 - **Nama SPBU** (SPBU Jatinangor, SPBU Cikini, dst) = nama area ilustratif, bukan daftar resmi.
+- **Kebutuhan lahan** (luas, daya listrik, durasi kontrak) = **dummy formulaik** (`avgSize` per indeks brand + teks tetap), **bukan** hasil analisis lahan yang disewa brand tersebut.
+
+  Di produksi, bagian ini semestinya dihitung dari data tenancy: median/persentil luas lahan tersewa per brand, daya listrik dominan, tipe posisi lahan (indoor/outdoor), dan durasi kontrak dari PKS — bukan dari angka tetap.
 - **Sub kategori, tipe brand, kebutuhan lahan, "Mitra sejak 2022"** = contoh.
 - **Peta sebaran outlet** = ilustrasi CSS, bukan peta sungguhan.
 
