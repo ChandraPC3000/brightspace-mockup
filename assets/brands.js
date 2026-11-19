@@ -109,15 +109,16 @@ const RAW_BRANDS = [
 const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 
 window.BRANDS = RAW_BRANDS.map((b, i) => {
-  /* 4 SPBU per brand, dipilih deterministik supaya contohnya konsisten */
-  const spbu = [0,1,2,3].map(k => SPBU_POOL[(i * 3 + k * 5) % SPBU_POOL.length]);
+  /* Jumlah SPBU per brand: 4–7, dipilih deterministik supaya contohnya konsisten.
+     Daftar ini menggambarkan SPBU tempat brand MENYEWA lahan, bukan lahan tersedia. */
+  const count = 4 + (i % 4);
+  const spbu = Array.from({ length: count }, (_, k) => SPBU_POOL[(i * 3 + k * 5) % SPBU_POOL.length]);
   return {
     ...b,
     id: slug(b.name),
     spbu,
     city: spbu[0].city,
-    spbuCount: (i % 7) + 4,                 // dummy: 4–10 SPBU
-    avgSize: [12, 16, 18, 20, 24][i % 5]    // dummy: m²
+    spbuCount: spbu.length
   };
 });
 

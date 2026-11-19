@@ -113,7 +113,7 @@
 
 <div class="proposal-bar" id="proposalBar">
   <div class="container">
-    <div><span class="tag">USULAN</span> Halaman detail tenant: deskripsi diambil dari situs resmi brand, outlet dari data kemitraan (dummy), dan daftar SPBU berdasarkan nama area.</div>
+    <div><span class="tag">USULAN</span> Halaman detail tenant: deskripsi dari situs resmi brand, jumlah outlet, dan daftar SPBU tempat brand ini menyewa lahan.</div>
     <button onclick="document.getElementById('proposalBar').remove()" aria-label="Tutup"><i class="bi bi-x-lg"></i></button>
   </div>
 </div>
@@ -160,7 +160,7 @@
         <div class="source-line" id="sourceLine"></div>
         <div class="brand-actions">
           <a class="btn btn-brand" href="#">Ajukan Kemitraan <i class="bi bi-arrow-right"></i></a>
-          <a class="btn btn-light" href="#lokasi"><i class="bi bi-geo-alt"></i> Lihat lokasi tersedia</a>
+          <a class="btn btn-light" href="#lokasi"><i class="bi bi-shop"></i> Lihat SPBU brand ini</a>
           <button class="icon-btn" aria-label="Simpan brand"><i class="bi bi-bookmark"></i></button>
           <button class="icon-btn" aria-label="Bagikan brand"><i class="bi bi-share"></i></button>
         </div>
@@ -197,23 +197,17 @@
             <span>Total gerai nasional</span>
             <a href="#" id="statTotalSrc" target="_blank" rel="noopener" hidden>Sumber brand <i class="bi bi-box-arrow-up-right"></i></a>
           </div>
-          <div class="stat"><b id="statSpbu">–</b><span>SPBU terpasang</span></div>
-          <div class="stat"><b id="statSize">–</b><span>Rata-rata luas <span class="dummy">(dummy)</span></span></div>
+          <div class="stat"><b id="statSpbu">–</b><span>SPBU terpasang <span class="dummy">(dummy)</span></span></div>
+          <div class="stat"><b id="statCities">–</b><span>Kota</span></div>
         </div>
-
-        <h3>Kebutuhan lahan <span class="dummy">(ilustrasi — bukan data sewa brand ini)</span></h3>
-        <ul id="needsList"></ul>
-        <p class="small muted" style="margin-top:8px">
-          Angka pada bagian ini masih contoh. Di produksi, nilainya dihitung dari agregat lahan yang benar-benar disewa brand tersebut.
-        </p>
 
         <h3>Kategori mitra</h3>
         <p class="muted small" id="catLine"></p>
       </section>
 
       <section class="panel-card" id="lokasi">
-        <h2>Lokasi di SPBU</h2>
-        <p class="muted small">Daftar SPBU berdasarkan nama area. Angka lahan adalah contoh.</p>
+        <h2>SPBU tempat brand ini beroperasi</h2>
+        <p class="muted small">Daftar SPBU tempat brand menyewa lahan — bukan daftar lahan yang masih tersedia.</p>
         <div class="map-ph" role="img" aria-label="Peta sebaran outlet (ilustrasi)">
           <i class="bi bi-map" style="font-size:28px"></i> Peta sebaran outlet
           <i class="bi bi-geo-alt-fill pin-dot" style="left:30%;top:40%"></i>
@@ -248,7 +242,7 @@
         <a class="btn btn-light" href="#">Hubungi Tim NFR</a>
         <div class="side-row"><span>Kategori</span><b id="sideCat">–</b></div>
         <div class="side-row"><span>Tipe brand</span><b id="sideType">–</b></div>
-        <div class="side-row"><span>Kebutuhan luas <span class="dummy">(dummy)</span></span><b id="sideSize">–</b></div>
+        <div class="side-row"><span>Jumlah SPBU <span class="dummy">(dummy)</span></span><b id="sideSpbu">–</b></div>
         <div class="side-row"><span>Status</span><b style="color:#067647">Menerima mitra</b></div>
         <div class="side-note">Deskripsi &amp; angka nasional diambil dari situs resmi brand. Jumlah outlet di SPBU masih dummy sampai integrasi data kemitraan tersedia.</div>
       </div>
@@ -358,36 +352,27 @@ if (brand.total && brand.source) {
   src.hidden = false; src.href = brand.source.url;
 }
 el("statSpbu").textContent = brand.spbuCount;
-el("statSize").textContent = brand.avgSize + " m²";
 
-el("needsList").innerHTML = [
-  `Luas ${brand.avgSize - 4}–${brand.avgSize + 4} m², indoor atau semi-outdoor`,
-  `Daya listrik minimal 4.400 W`,
-  `Akses bongkar muat dan saluran air`,
-  `Durasi kontrak 3–5 tahun`
-].map(t => `<li>${t}</li>`).join("");
+el("statCities").textContent = new Set(brand.spbu.map(s => s.city)).size;
 el("catLine").textContent = `${brand.cat} · ${brand.sub} · ${brand.type.toLowerCase()}`;
 
 /* ---------- daftar SPBU (nama area, bukan nomor) ---------- */
-el("spbuList").innerHTML = brand.spbu.map(s => {
-  const full = s.status === "Penuh";
-  return `<div class="spbu">
+el("spbuList").innerHTML = brand.spbu.map(s => `
+  <div class="spbu">
     <div class="pin"><i class="bi bi-fuel-pump"></i></div>
     <div>
       <h4>${s.name}</h4>
-      <p>${s.city} · ${s.lahan} lahan tersedia</p>
+      <p>${s.city}</p>
     </div>
     <div class="right">
-      <span class="pill ${full ? "full" : ""}">${s.status}</span>
-      <a href="list-brand.html">Lihat lahan</a>
+      <span class="pill">Outlet aktif</span>
     </div>
-  </div>`;
-}).join("");
+  </div>`).join("");
 
 /* ---------- sidebar ---------- */
 el("sideCat").textContent = brand.cat + " · " + brand.sub;
 el("sideType").textContent = brand.type;
-el("sideSize").textContent = (brand.avgSize - 4) + "–" + (brand.avgSize + 4) + " m²";
+el("sideSpbu").textContent = brand.spbuCount + " SPBU";
 
 /* ---------- brand serupa ---------- */
 const related = window.BRANDS

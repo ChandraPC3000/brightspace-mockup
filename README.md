@@ -25,7 +25,9 @@ Klik salah satu kartu di `list-brand.html`, lalu halaman detail menampilkan:
 2. **Total outlet** — dua angka:
    - *Outlet di SPBU* → **dummy**, dengan tautan **"Lihat di Kemitraan"** ke `kemitraan.patraniaga.com`.
    - *Total gerai nasional* → dari sumber brand (mis. KFC 690 gerai), dengan tautan sumber.
-3. **Daftar SPBU berdasarkan nama area**, bukan nomor — mis. `SPBU Jatinangor`, `SPBU Cibiru`, `SPBU Cikini`, `SPBU Kemang` — lengkap dengan kota, jumlah lahan, dan status.
+3. **Daftar SPBU berdasarkan nama area**, bukan nomor — mis. `SPBU Jatinangor`, `SPBU Cibiru`, `SPBU Cikini`, `SPBU Kemang` — hanya SPBU tempat brand **menyewa lahan**, beserta kotanya.
+
+Section brand **tidak** menampilkan lahan yang masih tersedia, status "Tersedia/Penuh", atau ajakan menyewa lahan. Informasi ketersediaan sengaja dipisah agar section ini murni berisi rekam jejak brand.
 
 Contoh URL: `brand-detail.html?id=kfc`, `?id=kopi-kenangan`, `?id=chatime` (contoh fallback).
 
@@ -63,9 +65,8 @@ Edit `assets/brands.js`, isi `desc` + `source`:
 - **Logo brand** = monogram inisial. Isi properti `logo` pada `assets/brands.js` untuk memakai logo asli.
 - **Jumlah outlet di SPBU, jumlah SPBU terpasang, jumlah SPBU per kota** = angka contoh untuk demo tata letak.
 - **Nama SPBU** (SPBU Jatinangor, SPBU Cikini, dst) = nama area ilustratif, bukan daftar resmi.
-- **Kebutuhan lahan** (luas, daya listrik, durasi kontrak) = **dummy formulaik** (`avgSize` per indeks brand + teks tetap), **bukan** hasil analisis lahan yang disewa brand tersebut.
-
-  Di produksi, bagian ini semestinya dihitung dari data tenancy: median/persentil luas lahan tersewa per brand, daya listrik dominan, tipe posisi lahan (indoor/outdoor), dan durasi kontrak dari PKS — bukan dari angka tetap.
+- **Jumlah SPBU per brand** (4–7) dan daftar SPBU-nya = dummy deterministik dari `SPBU_POOL`. Di produksi diisi dari relasi brand → lahan tersewa.
+- **Section "Kebutuhan lahan" sudah dihapus** dari halaman brand karena sebelumnya berisi angka dummy dan berpotensi disalahartikan sebagai data sewa nyata.
 - **Sub kategori, tipe brand, kebutuhan lahan, "Mitra sejak 2022"** = contoh.
 - **Peta sebaran outlet** = ilustrasi CSS, bukan peta sungguhan.
 
