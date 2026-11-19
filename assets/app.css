@@ -1,0 +1,171 @@
+/* ============================================================
+   Brightspace Mockup — stylesheet bersama
+   Dipakai oleh: home.html, brand-detail.html
+   (list-brand.html sengaja standalone agar mudah diedit sendiri)
+   ============================================================ */
+
+:root{
+  --bg:#f7fafc;
+  --ink:#212529;
+  --muted:#6c757d;
+  --line:#e3e8ee;
+  --white:#fff;
+  --navy:#032c48;
+  --brand:#c8102e;
+  --brand-soft:#fdecef;
+  --blue:#0d6efd;
+  --green:#0f766e;
+  --radius:6px;
+  --shadow-sm:0 2px 4px rgba(0,0,0,.075);
+  --shadow-card:0 10px 30px rgba(0,0,0,.10);
+  --nav-h:75px;
+  --font:"Exo",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;padding-top:var(--nav-h)}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+.container{width:min(1140px,100% - 32px);margin-inline:auto}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-link{position:absolute;left:-999px;top:0;background:#111;color:#fff;padding:8px 12px;z-index:3000}
+.skip-link:focus{left:8px;top:8px}
+:focus-visible{outline:3px solid rgba(200,16,46,.45);outline-offset:2px}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+
+/* ---------- NAVBAR ---------- */
+.navbar{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:1040;background:#fff;
+  box-shadow:0 4px 20px rgba(71,85,105,.20);display:flex;align-items:center}
+.navbar .container{display:flex;align-items:center;gap:16px;height:55px}
+.brand-logo{display:flex;align-items:center;min-width:180px}
+.brand-logo img{width:200px;height:auto}
+.brand-logo .fallback{font-weight:800;font-size:20px;letter-spacing:-.5px;color:#0b2a3a}
+.brand-logo .fallback small{display:block;font-size:9px;letter-spacing:2px;color:var(--muted);font-weight:600}
+.nav-links{display:flex;align-items:center;gap:4px;margin-left:auto;list-style:none;padding:0}
+.nav-links a{display:block;padding:12px 24px;color:rgba(0,0,0,.7);font-size:16px;border-radius:4px}
+.nav-links a:hover{color:#000;background:#f4f6f8}
+.nav-links a[aria-current="page"]{color:#000;font-weight:600}
+.nav-account{display:flex;align-items:center;gap:8px;padding-left:12px;border-left:1px solid var(--line)}
+.nav-account .who{font-size:12px;line-height:1.15;text-align:right}
+.nav-account .who b{display:block;font-size:13px}
+.nav-account .avatar{width:34px;height:34px;border-radius:50%;background:#eef2f6;display:grid;place-items:center;color:#395;font-size:18px}
+.nav-toggle{display:none;margin-left:auto;background:none;border:0;font-size:24px;padding:8px}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;display:flex;align-items:center;background:#0b2a3a center/cover no-repeat;
+  margin-top:calc(var(--nav-h) * -1);padding-top:var(--nav-h)}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,44,72,.82),rgba(3,44,72,.45) 60%,rgba(3,44,72,.25))}
+.hero .container{position:relative;color:#fff;padding:56px 0}
+.hero h1{margin:0 0 8px;font-size:36px;font-weight:700;letter-spacing:-.5px}
+.hero-half{min-height:335px}
+.hero-home{min-height:560px;background-image:url("spbu.webp")}
+.hero-home .container{padding-top:70px;padding-bottom:120px}
+.hero-home h1{font-size:42px;line-height:1.15;max-width:760px}
+.hero-home .sub{font-size:20px;font-weight:600;margin:0 0 10px;opacity:.95}
+.hero-home p{max-width:520px;color:rgba(255,255,255,.85);margin:0 0 18px}
+.hero-tag{display:inline-block;margin-top:22px;font-weight:700;letter-spacing:.5px;color:#8be9d4}
+.breadcrumb{font-size:13px;opacity:.85;margin-bottom:10px;display:flex;gap:8px;align-items:center}
+.breadcrumb a:hover{text-decoration:underline}
+
+/* ---------- TOMBOL ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:var(--radius);
+  padding:11px 22px;font-size:14px;font-weight:600;cursor:pointer;transition:.15s;text-align:center}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-dark:hover{background:#000}
+.btn-brand{background:var(--brand);color:#fff}
+.btn-brand:hover{filter:brightness(.92)}
+.btn-light{background:#fff;color:var(--ink);border-color:var(--line)}
+.btn-light:hover{background:#f4f7fa}
+.btn-outline{background:transparent;border-color:#c9d4de;color:var(--ink)}
+.btn-outline:hover{background:#fff}
+.btn-sm{padding:8px 14px;font-size:13px}
+
+/* ---------- SECTION ---------- */
+.section{padding:34px 0}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:16px}
+.section-head h2{margin:0;font-size:22px;letter-spacing:-.3px}
+.section-head p{margin:4px 0 0;color:var(--muted);font-size:14px}
+.section-head a{font-size:14px;font-weight:600;color:var(--brand)}
+.section-head a:hover{text-decoration:underline}
+
+/* ---------- KARTU LAHAN ---------- */
+.grid-lahan{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.lahan-card{background:#fff;border:1px solid #edf1f5;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);
+  display:flex;flex-direction:column;transition:.18s}
+.lahan-card:hover{transform:translateY(-3px);box-shadow:0 12px 24px rgba(15,43,61,.12)}
+.lahan-media{height:140px;background:linear-gradient(135deg,#dbe7f0,#eef4f8);position:relative;display:grid;place-items:center;color:#9fb3c4;font-size:30px}
+.badge{position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;background:#e7f8ef;color:#067647}
+.badge.used{background:#f2f4f7;color:#475467}
+.lahan-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
+.lahan-code{font-size:12px;color:var(--muted);letter-spacing:.3px}
+.lahan-title{font-size:14px;font-weight:600;line-height:1.35;margin:0;min-height:38px}
+.lahan-price{margin-top:auto;padding-top:10px;font-size:12px;color:var(--muted)}
+.lahan-price b{display:block;font-size:15px;color:var(--ink)}
+.lahan-actions{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.lahan-actions a{font-size:13px;font-weight:600;color:var(--brand)}
+
+/* ---------- KOTA ---------- */
+.city-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.city{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fff;border:1px solid #edf1f5;
+  border-radius:var(--radius);padding:12px 14px;font-size:14px;box-shadow:var(--shadow-sm);transition:.15s}
+.city:hover{border-color:#c9d9e4;transform:translateY(-2px)}
+.city span{color:var(--muted);font-size:12px}
+
+/* ---------- MITRA ---------- */
+.tenant-strip{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.tenant-chip{background:#fff;border:1px solid #edf1f5;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;color:#33475b}
+
+/* ---------- PROMO ---------- */
+.promo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.promo{background:#fff;border:1px solid #edf1f5;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+.promo-cover{height:150px;background:linear-gradient(135deg,#0f766e,#0b2a3a);display:grid;place-items:center;color:#fff;font-weight:800;letter-spacing:1px}
+.promo-body{padding:14px}
+.promo-body h3{margin:0 0 6px;font-size:15px;line-height:1.35}
+.promo-body .date{font-size:12px;color:var(--muted)}
+.promo-body a{display:inline-block;margin-top:10px;font-size:13px;font-weight:600;color:var(--brand)}
+
+/* ---------- CTA STRIP ---------- */
+.cta-strip{background:linear-gradient(120deg,#032c48,#0b4f6c);color:#fff;border-radius:10px;padding:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.cta-strip h2{margin:0 0 4px;font-size:22px}
+.cta-strip p{margin:0;color:rgba(255,255,255,.8);font-size:14px}
+
+/* ---------- FOOTER ---------- */
+.footer{background:var(--navy);color:#fff;padding:56px 0 0;margin-top:40px}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.3fr;gap:32px}
+.footer h4{margin:0 0 12px;font-size:15px;letter-spacing:.4px;text-transform:uppercase}
+.footer p,.footer a{font-size:13.5px;color:rgba(255,255,255,.78);line-height:1.7}
+.footer a:hover{color:#fff}
+.footer ul{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.social{display:flex;gap:12px;margin-top:14px;font-size:18px}
+.footer-bottom{margin-top:36px;border-top:1px solid rgba(255,255,255,.14);padding:16px 0;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12.5px;color:rgba(255,255,255,.65)}
+
+/* ---------- RESPONSIF ---------- */
+@media (max-width:1100px){
+  .grid-lahan{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .city-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .nav-links a{padding:12px 14px}
+}
+@media (max-width:900px){
+  .grid-lahan{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .city-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .promo-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .nav-toggle{display:block}
+  .nav-account{border:0;padding:0}
+  .navbar.open .nav-links{display:flex;position:absolute;top:var(--nav-h);left:0;right:0;flex-direction:column;align-items:stretch;
+    background:#fff;padding:8px;box-shadow:0 20px 30px rgba(0,0,0,.12)}
+  .navbar.open .nav-links a{padding:12px}
+  .hero-home{min-height:460px}
+  .hero-home h1{font-size:32px}
+  .hero-home .container{padding-top:40px;padding-bottom:100px}
+}
+@media (max-width:560px){
+  .grid-lahan,.city-grid,.promo-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .hero-home h1{font-size:26px}
+}
+@media print{.navbar{display:none}body{padding-top:0}}

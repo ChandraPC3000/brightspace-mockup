@@ -1,0 +1,387 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beranda — Mockup Brightspace</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23c8102e'/%3E%3Ctext x='32' y='45' font-family='Arial' font-size='38' font-weight='bold' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+  /* ---- panel pencarian yang melayang di bawah hero ---- */
+  .search-wrap{position:relative;z-index:3;margin-top:-72px}
+  .search-card{background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-radius:8px;
+    box-shadow:0 18px 40px rgba(3,44,72,.16);padding:8px;border:1px solid rgba(255,255,255,.7)}
+  .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);padding:4px 4px 0}
+  .tab{background:none;border:0;padding:12px 18px;font-size:15px;font-weight:600;color:var(--muted);cursor:pointer;
+    border-bottom:3px solid transparent;margin-bottom:-1px}
+  .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--brand)}
+  .panel{display:none;padding:16px 14px}
+  .panel.active{display:block}
+  .panel-row{display:flex;gap:12px;align-items:end;flex-wrap:wrap}
+  .panel-row .field{flex:1;min-width:220px;display:flex;flex-direction:column;gap:6px}
+  .panel label{font-size:13px;color:var(--muted)}
+  input[type=text],select{width:100%;height:46px;padding:10px 14px;font-size:15px;background:#fff;border:1px solid var(--line);border-radius:4px;appearance:none}
+  input[type=text]:focus,select:focus{border-color:#9db3c4;outline:none;box-shadow:0 0 0 3px rgba(13,110,253,.10)}
+  select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%236c757d' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+  .search-note{display:flex;align-items:center;gap:8px;margin:10px 4px 0;font-size:12.5px;color:var(--muted)}
+
+  /* ---- kartu lahan versi beranda ---- */
+  .lahan-card .lahan-media img{width:100%;height:100%;object-fit:cover;opacity:.9}
+  .lahan-card .lahan-media{background:linear-gradient(135deg,#e8eff5,#f3f7fa)}
+  .lahan-media::after{content:"";position:absolute;inset:0;background-image:radial-gradient(#c9d8e4 1px,transparent 1px);background-size:14px 14px;opacity:.55;pointer-events:none}
+  .lahan-media i{position:relative;z-index:1}
+  .city i{color:#9fb3c4;font-size:13px}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Lewati ke konten</a>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <a class="brand-logo" href="home.html" aria-label="Brightspace — beranda">
+      <img src="assets/BrightSpace.webp" alt="Brightspace"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="fallback" style="display:none">brightspace<small>by PERTAMINA</small></span>
+    </a>
+    <button class="nav-toggle" aria-label="Buka menu" aria-expanded="false"
+      onclick="document.getElementById('navbar').classList.toggle('open');this.setAttribute('aria-expanded',document.getElementById('navbar').classList.contains('open'))">
+      <i class="bi bi-list"></i>
+    </button>
+    <ul class="nav-links">
+      <li><a href="home.html" aria-current="page">Beranda</a></li>
+      <li><a href="#">Jelajahi Lokasi</a></li>
+      <li><a href="#">Tenant</a></li>
+      <li><a href="#">Tentang Kami</a></li>
+      <li><a href="list-brand.html">Brand</a></li>
+    </ul>
+    <div class="nav-account">
+      <div class="who"><span>Selamat Datang,</span><b>Veneta Indonesia</b></div>
+      <div class="avatar" aria-hidden="true"><i class="bi bi-person-circle"></i></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero hero-home">
+  <div class="container">
+    <h1>Cari Lokasi Strategis untuk Bisnis Anda</h1>
+    <p class="sub">Di SPBU Pertamina</p>
+    <p>Ribuan pilihan tempat siap pakai untuk berbagai usaha anda</p>
+    <a class="btn btn-light" href="#rekomendasi">Selengkapnya <i class="bi bi-arrow-right"></i></a>
+    <div class="hero-tag">#YourRightSpace</div>
+  </div>
+</header>
+
+<!-- ================= PENCARIAN ================= -->
+<div class="container search-wrap">
+  <div class="search-card">
+    <div class="tabs" role="tablist" aria-label="Cara mencari">
+      <button class="tab" id="tab-daerah" role="tab" aria-selected="true" aria-controls="panel-daerah">Cari Kota</button>
+      <button class="tab" id="tab-kode" role="tab" aria-selected="false" aria-controls="panel-kode">Cari Kode</button>
+    </div>
+
+    <div class="panel active" id="panel-daerah" role="tabpanel" aria-labelledby="tab-daerah">
+      <form onsubmit="return false">
+        <div class="panel-row">
+          <div class="field">
+            <label for="kota">Cari ruang usaha berdasarkan Kota</label>
+            <select id="kota">
+              <option value="">Cari wilayah…</option>
+              <option>Jakarta Pusat</option>
+              <option>Jakarta Selatan</option>
+              <option>Tangerang Selatan</option>
+              <option>Palembang</option>
+              <option>Medan</option>
+              <option>Surabaya</option>
+              <option>Bandung</option>
+              <option>Makassar</option>
+            </select>
+          </div>
+          <button class="btn btn-brand" type="submit"><i class="bi bi-search"></i> Tampilkan</button>
+        </div>
+      </form>
+      <p class="search-note"><i class="bi bi-info-circle"></i> Pilih kota untuk melihat SPBU dan lahan yang tersedia.</p>
+    </div>
+
+    <div class="panel" id="panel-kode" role="tabpanel" aria-labelledby="tab-kode" hidden>
+      <form onsubmit="return false">
+        <div class="panel-row">
+          <div class="field">
+            <label for="kode">Cari ruang usaha berdasarkan Kode SPBU</label>
+            <input type="text" id="kode" placeholder="Contoh: 3110303">
+          </div>
+          <button class="btn btn-brand" type="submit"><i class="bi bi-search"></i> Tampilkan</button>
+        </div>
+      </form>
+      <p class="search-note"><i class="bi bi-info-circle"></i> Kode SPBU terdiri dari 7 digit dan tertera di papan nama SPBU.</p>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ================= REKOMENDASI LAHAN ================= -->
+  <section class="section container" id="rekomendasi">
+    <div class="section-head">
+      <div>
+        <h2>Rekomendasi Lahan di SPBU</h2>
+        <p>Lahan dengan traffic tinggi di kota besar</p>
+      </div>
+      <a href="#">Lihat semua <i class="bi bi-arrow-right"></i></a>
+    </div>
+
+    <div class="grid-lahan">
+      <article class="lahan-card">
+        <div class="lahan-media"><span class="badge">Tersedia</span><i class="bi bi-shop"></i></div>
+        <div class="lahan-body">
+          <span class="lahan-code">SPBU 3110303</span>
+          <h3 class="lahan-title">Jl. Cikini Raya, Menteng, Jakarta Pusat</h3>
+          <div class="lahan-price">Mulai dari<b>Rp 12.000.000 / tahun</b></div>
+          <div class="lahan-actions"><span class="small muted">F&amp;B · 12 m²</span><a href="#">Detail</a></div>
+        </div>
+      </article>
+
+      <article class="lahan-card">
+        <div class="lahan-media"><span class="badge">Tersedia</span><i class="bi bi-shop"></i></div>
+        <div class="lahan-body">
+          <span class="lahan-code">SPBU 3412805</span>
+          <h3 class="lahan-title">Jl. Casablanca, Menteng Dalam, Tebet, Jakarta Selatan</h3>
+          <div class="lahan-price">Mulai dari<b>Rp 18.000.000 / tahun</b></div>
+          <div class="lahan-actions"><span class="small muted">C-Store · 24 m²</span><a href="#">Detail</a></div>
+        </div>
+      </article>
+
+      <article class="lahan-card">
+        <div class="lahan-media"><span class="badge">Tersedia</span><i class="bi bi-shop"></i></div>
+        <div class="lahan-body">
+          <span class="lahan-code">SPBU 2430198</span>
+          <h3 class="lahan-title">Jl. Soekarno–Hatta, Kodya Palembang</h3>
+          <div class="lahan-price">Mulai dari<b>Rp 20.000.000 / tahun</b></div>
+          <div class="lahan-actions"><span class="small muted">Auto Care · 30 m²</span><a href="#">Detail</a></div>
+        </div>
+      </article>
+
+      <article class="lahan-card">
+        <div class="lahan-media"><span class="badge">Tersedia</span><i class="bi bi-shop"></i></div>
+        <div class="lahan-body">
+          <span class="lahan-code">SPBU 3115302</span>
+          <h3 class="lahan-title">Kav. Commercial IVA Blok I-2, Lengkong Karya, Tangsel</h3>
+          <div class="lahan-price">Mulai dari<b>Rp 24.000.000 / tahun</b></div>
+          <div class="lahan-actions"><span class="small muted">F&amp;B · 18 m²</span><a href="#">Detail</a></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= KOTA ================= -->
+  <section class="section container" style="padding-top:0">
+    <div class="section-head">
+      <div>
+        <h2>SPBU berdasarkan kota di Indonesia</h2>
+        <p>Jelajahi lahan berdasarkan wilayah</p>
+      </div>
+    </div>
+    <div class="city-grid">
+      <a class="city" href="#">Jakarta Pusat  <i class="bi bi-arrow-right"></i></a>
+      <a class="city" href="#">Jakarta Selatan  <i class="bi bi-arrow-right"></i></a>
+      <a class="city" href="#">Jakarta Timur  <i class="bi bi-arrow-right"></i></a>
+      <a class="city" href="#">Tangerang Selatan  <i class="bi bi-arrow-right"></i></a>
+      <a class="city" href="#">Palembang  <i class="bi bi-arrow-right"></i></a>
+      <a class="city" href="#">Medan  <i class="bi bi-arrow-right"></i></a>
+      <a class="city" href="#">Surabaya  <i class="bi bi-arrow-right"></i></a>
+      <a class="city" href="#">Makassar  <i class="bi bi-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- ================= LAHAN BARU ================= -->
+  <section class="section container" style="padding-top:0">
+    <div class="section-head">
+      <div>
+        <h2>Rekomendasi Lahan Baru</h2>
+        <p>Baru ditambahkan dalam 30 hari terakhir</p>
+      </div>
+      <a href="#">Lihat semua <i class="bi bi-arrow-right"></i></a>
+    </div>
+    <div class="grid-lahan">
+      <article class="lahan-card">
+        <div class="lahan-media"><span class="badge">Tersedia</span><i class="bi bi-shop"></i></div>
+        <div class="lahan-body">
+          <span class="lahan-code">SPBU 3112204</span>
+          <h3 class="lahan-title">Jl. Sultan Iskandar Muda, Kebayoran Lama, Jakarta Selatan</h3>
+          <div class="lahan-price">Mulai dari<b>Rp 84.000.000 / tahun</b></div>
+          <div class="lahan-actions"><span class="small muted">F&amp;B · 48 m²</span><a href="#">Detail</a></div>
+        </div>
+      </article>
+
+      <article class="lahan-card">
+        <div class="lahan-media"><span class="badge used">Tersewa</span><i class="bi bi-shop"></i></div>
+        <div class="lahan-body">
+          <span class="lahan-code">SPBU 11201104</span>
+          <h3 class="lahan-title">Jl. G. Subroto KM 5,2, Medan</h3>
+          <div class="lahan-price">Mulai dari<b>Rp 96.000.000 / tahun</b></div>
+          <div class="lahan-actions"><span class="small muted">C-Store · 60 m²</span><a href="#">Detail</a></div>
+        </div>
+      </article>
+
+      <article class="lahan-card">
+        <div class="lahan-media"><span class="badge">Tersedia</span><i class="bi bi-shop"></i></div>
+        <div class="lahan-body">
+          <span class="lahan-code">SPBU 3412208</span>
+          <h3 class="lahan-title">Jl. Ciputat Raya, Jakarta Selatan</h3>
+          <div class="lahan-price">Mulai dari<b>Rp 1.000.000 / bulan</b></div>
+          <div class="lahan-actions"><span class="small muted">Advertising · 6 m²</span><a href="#">Detail</a></div>
+        </div>
+      </article>
+
+      <article class="lahan-card">
+        <div class="lahan-media"><span class="badge">Tersedia</span><i class="bi bi-shop"></i></div>
+        <div class="lahan-body">
+          <span class="lahan-code">SPBU 8397101</span>
+          <h3 class="lahan-title">Jl. Dr. Tamaela, Silae, Nusaniwe, Ambon</h3>
+          <div class="lahan-price">Mulai dari<b>Rp 8.400.000 / tahun</b></div>
+          <div class="lahan-actions"><span class="small muted">UMKM · 9 m²</span><a href="#">Detail</a></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= MITRA ================= -->
+  <section class="section container" style="padding-top:0">
+    <div class="section-head">
+      <div>
+        <h2>Mitra Tenant Kami</h2>
+        <p>Lebih dari 100 tenant telah bekerja sama menjadi mitra Pertamina</p>
+      </div>
+      <a href="list-brand.html">Lihat semua brand <i class="bi bi-arrow-right"></i></a>
+    </div>
+    <div class="tenant-strip">
+      <span class="tenant-chip">Kopi Kenangan</span>
+      <span class="tenant-chip">Chatime</span>
+      <span class="tenant-chip">BURGER KING</span>
+      <span class="tenant-chip">Dunkin' Donuts</span>
+      <span class="tenant-chip">Holland Bakery</span>
+      <span class="tenant-chip">Excelso</span>
+      <span class="tenant-chip">KFC</span>
+      <span class="tenant-chip">Bright Cafe</span>
+      <span class="tenant-chip">Tomoro Coffee</span>
+      <span class="tenant-chip">Roti'O</span>
+    </div>
+  </section>
+
+  <!-- ================= PROMO ================= -->
+  <section class="section container" style="padding-top:0">
+    <div class="section-head">
+      <div>
+        <h2>Promo</h2>
+        <p>Program dan penawaran terbaru</p>
+      </div>
+    </div>
+    <div class="promo-grid">
+      <article class="promo">
+        <div class="promo-cover">MYPERTAMINA</div>
+        <div class="promo-body">
+          <h3>Beli Oli Tangki Terisi (BOLT) dan Dapatkan Bonus E-Voucher</h3>
+          <div class="date">01 Feb 2026</div>
+          <a href="#">Lihat promo <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </article>
+      <article class="promo">
+        <div class="promo-cover" style="background:linear-gradient(135deg,#c8102e,#7f0b1d)">EVENT</div>
+        <div class="promo-body">
+          <h3>Spesial Hari Pahlawan Bersama MyPertamina, Dapatkan Cashback</h3>
+          <div class="date">09 Nov 2026</div>
+          <a href="#">Lihat promo <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </article>
+      <article class="promo">
+        <div class="promo-cover" style="background:linear-gradient(135deg,#b45309,#7c2d12)">POIN</div>
+        <div class="promo-body">
+          <h3>#TukarPoinLangsungUntung, Diskon Poin MyPertamina Hingga 70%</h3>
+          <div class="date">09 Okt 2026</div>
+          <a href="#">Lihat promo <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="container" style="padding-bottom:44px">
+    <div class="cta-strip">
+      <div>
+        <h2>Siap buka usaha di SPBU Pertamina?</h2>
+        <p>Bangun usahamu di lokasi dengan traffic tinggi.</p>
+      </div>
+      <a class="btn btn-brand" href="#">Daftar Jadi Mitra <i class="bi bi-arrow-right"></i></a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Pertamina Brightspace</h4>
+        <p>Platform pencarian lokasi usaha di SPBU Pertamina</p>
+        <div class="social">
+          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" aria-label="X"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4>Tautan</h4>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="#">Explore</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Registrasi Tenant</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Situs Terkait</h4>
+        <ul>
+          <li><a href="#">Pertamina (persero)</a></li>
+          <li><a href="#">Pertamina Patra Niaga</a></li>
+          <li><a href="#">My Pertamina</a></li>
+          <li><a href="#">Kemitraan Patra Niaga</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontak</h4>
+        <p>Gedung Wisma Tugu II Lt. 2<br>Jl. HR. Rasuna Said Kav. C7-9, Setiabudi, Kuningan, Jakarta Selatan</p>
+        <p>Email: pcc135@pertamina.com</p>
+        <p><a href="#">Whistle Blowing System</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Pertamina Patra Niaga. All Rights Reserved.</span>
+      <a href="#">Kebijakan Privasi</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Tab pencarian: Cari Kota / Cari Kode */
+const tabs = document.querySelectorAll('.tab');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => { t.setAttribute('aria-selected', 'false'); });
+    tab.setAttribute('aria-selected', 'true');
+    document.querySelectorAll('.panel').forEach(p => { p.classList.remove('active'); p.hidden = true; });
+    const panel = document.getElementById(tab.getAttribute('aria-controls'));
+    panel.classList.add('active'); panel.hidden = false;
+  });
+});
+</script>
+</body>
+</html>

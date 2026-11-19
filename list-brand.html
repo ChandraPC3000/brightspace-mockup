@@ -1,0 +1,674 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cari Brand — Mockup Brightspace</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23c8102e'/%3E%3Ctext x='32' y='45' font-family='Arial' font-size='38' font-weight='bold' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+
+<!--
+  ============================================================================
+  MOCKUP / "BAYANGAN" HALAMAN LIST BRAND — brightspace.pertamina.com/list/brand
+  ============================================================================
+  Tujuan : replika halaman asli untuk eksplorasi enhancement, bukan produksi.
+  Basis  : https://brightspace.pertamina.com/list/brand?Page=1&Ca=1
+           (struktur, warna, tipografi, dan 31 nama brand diambil dari halaman asli)
+  Catatan:
+   - Logo brand TIDAK disalin. Kartu memakai monogram inisial sebagai placeholder.
+     Untuk memakai logo asli, isi properti `logo` pada data BRANDS (contoh di bawah).
+   - Angka "outlet" dan "kota" adalah DATA DUMMY untuk mendemokan tata letak.
+   - Panel "Enhancement" di kanan bawah untuk menyalakan/mematikan usulan fitur.
+   - Semua CSS & JS ada di file ini supaya mudah diedit lalu dibuka di browser.
+  ============================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/bootstrap-icons.css">
+
+<style>
+/* ============================================================
+   1. TOKEN DESAIN
+   ============================================================ */
+:root{
+  --bg:            #f7fafc;   /* body background asli */
+  --ink:           #212529;   /* teks utama */
+  --muted:         #6c757d;
+  --line:          #e3e8ee;
+  --white:         #ffffff;
+  --navy:          #032c48;   /* footer */
+  --brand:         #c8102e;   /* aksen Pertamina (dipakai di mode enhanced) */
+  --brand-soft:    #fdecef;
+  --blue:          #0d6efd;   /* warna pagination asli (Bootstrap default) */
+  --radius:        6px;
+  --shadow-sm:     0 2px 4px rgba(0,0,0,.075);
+  --shadow-card:   0 10px 30px rgba(0,0,0,.10);
+  --nav-h:         75px;
+  --font:          "Exo", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* ============================================================
+   2. DASAR
+   ============================================================ */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--font); font-size:16px; line-height:1.5;
+  padding-top:var(--nav-h);
+}
+img{max-width:100%; display:block}
+a{color:inherit; text-decoration:none}
+button{font-family:inherit}
+.container{width:min(1140px, 100% - 32px); margin-inline:auto}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-link{position:absolute;left:-999px;top:0;background:#111;color:#fff;padding:8px 12px;z-index:3000}
+.skip-link:focus{left:8px;top:8px}
+:focus-visible{outline:3px solid rgba(200,16,46,.45); outline-offset:2px}
+
+/* ============================================================
+   3. NAVBAR (fixed-top, putih, shadow lembut)
+   ============================================================ */
+.navbar{
+  position:fixed; inset:0 0 auto 0; height:var(--nav-h); z-index:1040;
+  background:var(--white); box-shadow:0 4px 20px rgba(71,85,105,.20);
+  display:flex; align-items:center;
+}
+.navbar .container{display:flex; align-items:center; gap:16px; height:55px}
+.brand-logo{display:flex; align-items:center; gap:8px; min-width:180px}
+.brand-logo img{width:200px; height:auto}
+.brand-logo .fallback{font-weight:800; font-size:20px; letter-spacing:-.5px; color:#0b2a3a}
+.brand-logo .fallback small{display:block; font-size:9px; letter-spacing:2px; color:var(--muted); font-weight:600}
+.nav-links{display:flex; align-items:center; gap:4px; margin-left:auto; list-style:none; padding:0}
+.nav-links a{display:block; padding:12px 24px; color:rgba(0,0,0,.7); font-size:16px; border-radius:4px}
+.nav-links a:hover{color:#000; background:#f4f6f8}
+.nav-links a[aria-current="page"]{color:#000; font-weight:600}
+.nav-account{display:flex; align-items:center; gap:8px; padding-left:12px; border-left:1px solid var(--line)}
+.nav-account .who{font-size:12px; line-height:1.15; text-align:right}
+.nav-account .who b{display:block; font-size:13px}
+.nav-account .avatar{width:34px;height:34px;border-radius:50%;background:#eef2f6;display:grid;place-items:center;color:#395; font-size:18px}
+.nav-toggle{display:none; margin-left:auto; background:none; border:0; font-size:24px; padding:8px}
+
+/* ============================================================
+   4. HERO (gambar header + overlay gelap)
+   ============================================================ */
+.hero{
+  position:relative; min-height:335px; display:flex; align-items:center;
+  background:#0b2a3a url("assets/list-header.webp") center/cover no-repeat;
+  margin-top:calc(var(--nav-h) * -1); padding-top:var(--nav-h);
+}
+.hero::before{content:""; position:absolute; inset:0; background:linear-gradient(90deg, rgba(3,44,72,.78) 0%, rgba(3,44,72,.42) 55%, rgba(3,44,72,.18) 100%)}
+.hero .container{position:relative; color:#fff; padding:44px 0}
+.hero h1{margin:0; font-size:36px; font-weight:700; letter-spacing:-.5px}
+.breadcrumb{font-size:13px; opacity:.85; margin-bottom:10px; display:flex; gap:8px; align-items:center}
+.breadcrumb a:hover{text-decoration:underline}
+
+/* ============================================================
+   5. PANEL FILTER
+   ============================================================ */
+.filter-section{position:relative; z-index:2; margin-top:-56px}
+.filter-card{
+  background:rgba(255,255,255,.94); backdrop-filter:blur(6px);
+  border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-card);
+  border:1px solid rgba(255,255,255,.6);
+}
+.filter-grid{display:grid; grid-template-columns:repeat(12, 1fr); gap:12px 16px}
+.field{display:flex; flex-direction:column; gap:6px}
+.field.col-6{grid-column:span 6}
+.field.col-3{grid-column:span 3}
+.field.col-2{grid-column:span 2}
+.field label{font-size:14px; color:var(--muted)}
+.control{position:relative}
+.control .icon{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#8a97a5; pointer-events:none}
+input[type="text"], select{
+  width:100%; height:44px; padding:10px 14px; font-size:15px; color:var(--ink);
+  background:#fff; border:1px solid var(--line); border-radius:4px; appearance:none;
+}
+input[type="text"]{padding-left:38px}
+select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%236c757d' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>"); background-repeat:no-repeat; background-position:right 14px center; padding-right:36px}
+input:focus, select:focus{border-color:#9db3c4; outline:none; box-shadow:0 0 0 3px rgba(13,110,253,.10)}
+.filter-actions{grid-column:span 12; display:flex; justify-content:flex-end; gap:10px; align-items:center; margin-top:2px}
+.btn{display:inline-flex; align-items:center; gap:8px; border:1px solid transparent; border-radius:var(--radius); padding:10px 24px; font-size:14px; font-weight:600; cursor:pointer; transition:.15s}
+.btn-dark{background:var(--ink); color:#fff}
+.btn-dark:hover{background:#000}
+.btn-ghost{background:transparent; color:var(--muted); border-color:transparent}
+.btn-ghost:hover{background:#f1f4f7; color:var(--ink)}
+.btn-brand{background:var(--brand); color:#fff}
+.btn-brand:hover{filter:brightness(.92)}
+
+/* ============================================================
+   6. HASIL & GRID KARTU
+   ============================================================ */
+.results{padding:28px 0 56px; scroll-margin-top:90px}
+.results-head{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:16px; flex-wrap:wrap}
+.result-count{margin:0; font-size:14px; color:var(--muted)}
+.result-count b{color:var(--ink)}
+.tools{display:flex; gap:10px; align-items:center}
+.tools select{height:38px; font-size:13px; min-width:190px}
+
+.grid{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:20px}
+.card{
+  background:#fff; border:1px solid #edf1f5; border-radius:var(--radius);
+  box-shadow:var(--shadow-sm); padding:16px; text-align:center;
+  display:flex; flex-direction:column; height:100%;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.card:hover{transform:translateY(-3px); box-shadow:0 12px 24px rgba(15,43,61,.12)}
+.logo-box{height:170px; display:grid; place-items:center; margin-bottom:14px; overflow:hidden}
+.logo-box img{max-height:100%; max-width:100%; object-fit:contain}
+.logo-box .monogram{
+  width:96px; height:96px; border-radius:22px; display:grid; place-items:center;
+  font-weight:800; font-size:30px; letter-spacing:-1px; color:#fff;
+}
+.card h3{margin:0 0 4px; font-size:16px; font-weight:600; line-height:1.3}
+.card .cat{margin:0; font-size:13px; color:var(--muted)}
+.card .meta{display:none; margin-top:10px; font-size:12px; color:var(--muted); gap:10px; justify-content:center; flex-wrap:wrap}
+.card .meta .dot{opacity:.45}
+.card .cta{display:none; margin-top:14px}
+.card .cta a{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--brand)}
+.card .cta a:hover{text-decoration:underline}
+.card .save{
+  display:none; position:absolute; top:10px; right:10px; border:1px solid var(--line);
+  background:#fff; border-radius:50%; width:30px; height:30px; cursor:pointer; color:#7a8794;
+}
+.card{position:relative}
+.card .save:hover{color:var(--brand); border-color:#f3c2ca}
+.card .save.on{color:var(--brand); background:var(--brand-soft); border-color:#f3c2ca}
+
+/* ============================================================
+   7. PAGINASI
+   ============================================================ */
+.pager{display:flex; justify-content:center; gap:6px; margin-top:32px; flex-wrap:wrap}
+.pager button{
+  min-width:38px; height:38px; padding:0 12px; background:#fff; color:var(--blue);
+  border:1px solid #dee2e6; border-radius:4px; cursor:pointer; font-size:14px; transition:.15s;
+}
+.pager button:hover{background:#f1f6ff}
+.pager button[aria-current="page"]{background:var(--blue); border-color:var(--blue); color:#fff; font-weight:600}
+.pager button:disabled{opacity:.45; cursor:not-allowed}
+
+/* ============================================================
+   8. EMPTY STATE
+   ============================================================ */
+.empty{display:none; text-align:center; padding:56px 16px; background:#fff; border:1px dashed var(--line); border-radius:8px}
+.empty .ico{font-size:38px; color:#b6c2cf}
+.empty h3{margin:10px 0 6px; font-size:18px}
+.empty p{margin:0 0 16px; color:var(--muted); font-size:14px}
+
+/* ============================================================
+   9. FOOTER
+   ============================================================ */
+.footer{background:var(--navy); color:#fff; padding:56px 0 0; margin-top:40px}
+.footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1.3fr; gap:32px}
+.footer h4{margin:0 0 12px; font-size:15px; letter-spacing:.4px; text-transform:uppercase}
+.footer p, .footer a{font-size:13.5px; color:rgba(255,255,255,.78); line-height:1.7}
+.footer a:hover{color:#fff}
+.footer ul{list-style:none; padding:0; margin:0; display:grid; gap:6px}
+.social{display:flex; gap:12px; margin-top:14px; font-size:18px}
+.footer-bottom{margin-top:36px; border-top:1px solid rgba(255,255,255,.14); padding:16px 0; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; font-size:12.5px; color:rgba(255,255,255,.65)}
+
+/* ============================================================
+   10. STATE "ENHANCED" (dinyalakan lewat body.enhanced + flag)
+   ============================================================ */
+body.enh-count .result-count{display:block}
+.result-count{display:none}
+body.enh-sort .tools{display:flex}
+.tools{display:none}
+body.enh-outlets .card .meta{display:flex}
+body.enh-cta .card .cta{display:block}
+body.enh-save .card .save{display:grid; place-items:center}
+body.enh-pager.brand-pager .pager button{color:var(--brand)}
+body.enh-pager.brand-pager .pager button[aria-current="page"]{background:var(--brand); border-color:var(--brand); color:#fff}
+body.enh-btn .btn-dark{background:var(--brand)}
+body.enh-btn .btn-dark:hover{filter:brightness(.92)}
+
+/* ============================================================
+   11. PANEL ENHANCEMENT (dev toolbar)
+   ============================================================ */
+.devbar{position:fixed; right:18px; bottom:18px; z-index:2000; font-family:var(--font)}
+.devbar-toggle{
+  display:flex; align-items:center; gap:8px; background:#0b2a3a; color:#fff; border:0;
+  border-radius:999px; padding:11px 18px; font-size:13px; font-weight:600; cursor:pointer;
+  box-shadow:0 10px 24px rgba(0,0,0,.25);
+}
+.devbar-toggle .dot{width:8px;height:8px;border-radius:50%;background:#37d67a}
+.devbar-panel{
+  display:none; width:296px; margin-bottom:10px; background:#fff; border-radius:10px;
+  box-shadow:0 20px 50px rgba(0,0,0,.25); border:1px solid var(--line); overflow:hidden;
+}
+.devbar.open .devbar-panel{display:block}
+.devbar-head{padding:12px 14px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center}
+.devbar-head b{font-size:13px}
+.devbar-head small{font-size:11px; color:var(--muted); display:block}
+.devbar-body{padding:8px 6px; max-height:52vh; overflow:auto}
+.switch{display:flex; align-items:center; gap:10px; padding:8px; border-radius:6px; cursor:pointer; font-size:13px}
+.switch:hover{background:#f6f8fa}
+.switch input{appearance:none; width:34px; height:20px; border-radius:999px; background:#cfd8e0; position:relative; cursor:pointer; transition:.15s; flex:0 0 auto}
+.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:#fff; transition:.15s}
+.switch input:checked{background:#0f766e}
+.switch input:checked::after{transform:translateX(14px)}
+.switch span{line-height:1.3}
+.switch small{display:block; color:var(--muted); font-size:11px}
+.devbar-note{padding:10px 14px; border-top:1px solid var(--line); font-size:11px; color:var(--muted); background:#fbfcfd}
+.devbar-reset{width:calc(100% - 16px); margin:4px 8px 8px; padding:9px; border:1px solid var(--line); background:#fff; border-radius:6px; font-size:12px; cursor:pointer}
+
+/* ============================================================
+   12. RESPONSIF
+   ============================================================ */
+@media (max-width: 1100px){
+  .grid{grid-template-columns:repeat(3, minmax(0,1fr))}
+  .nav-links a{padding:12px 14px}
+}
+@media (max-width: 900px){
+  .grid{grid-template-columns:repeat(2, minmax(0,1fr))}
+  .field.col-6, .field.col-3, .field.col-2{grid-column:span 6}
+  .filter-actions{justify-content:stretch}
+  .filter-actions .btn{flex:1; justify-content:center}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .nav-toggle{display:block}
+  .nav-account{border:0; padding:0}
+  .navbar.open .nav-links{
+    display:flex; position:absolute; top:var(--nav-h); left:0; right:0;
+    flex-direction:column; align-items:stretch; background:#fff; padding:8px;
+    box-shadow:0 20px 30px rgba(0,0,0,.12);
+  }
+  .navbar.open .nav-links a{padding:12px}
+  .hero{min-height:260px}
+  .hero h1{font-size:28px}
+}
+@media (max-width: 560px){
+  .grid{grid-template-columns:1fr}
+  .filter-section{margin-top:-40px}
+  .footer-grid{grid-template-columns:1fr}
+  .logo-box{height:150px}
+}
+@media print{ .devbar,.navbar{display:none} body{padding-top:0} }
+</style>
+</head>
+<body class="enhanced">
+
+<a class="skip-link" href="#main">Lewati ke konten</a>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <a class="brand-logo" href="#" aria-label="Brightspace — beranda">
+      <img src="assets/BrightSpace.webp" alt="Brightspace"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <span class="fallback" style="display:none">brightspace<small>by PERTAMINA</small></span>
+    </a>
+
+    <button class="nav-toggle" aria-label="Buka menu" aria-expanded="false" onclick="document.getElementById('navbar').classList.toggle('open'); this.setAttribute('aria-expanded', document.getElementById('navbar').classList.contains('open'))">
+      <i class="bi bi-list"></i>
+    </button>
+
+    <ul class="nav-links">
+      <li><a href="home.html">Beranda</a></li>
+      <li><a href="#">Jelajahi Lokasi</a></li>
+      <li><a href="#">Tenant</a></li>
+      <li><a href="#">Tentang Kami</a></li>
+      <li><a href="#" aria-current="page">Brand</a></li>
+    </ul>
+
+    <div class="nav-account" id="accountBox">
+      <!-- Mode mitra (login). Ganti nama di sini. -->
+      <div class="who"><span>Selamat Datang,</span><b>Veneta Indonesia</b></div>
+      <div class="avatar" aria-hidden="true"><i class="bi bi-person-circle"></i></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="#">Beranda</a> <i class="bi bi-chevron-right" style="font-size:10px"></i> <span>Brand</span>
+    </nav>
+    <h1>Cari Brand</h1>
+  </div>
+</header>
+
+<!-- ================= FILTER ================= -->
+<div class="filter-section container">
+  <form class="filter-card" id="filterForm" role="search" aria-label="Cari brand">
+    <div class="filter-grid">
+      <div class="field col-6">
+        <label for="q">Cari Brand</label>
+        <div class="control">
+          <i class="bi bi-search icon"></i>
+          <input type="text" id="q" name="q" placeholder="Nama brand…" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="field col-2">
+        <label for="cat">Kategori</label>
+        <select id="cat" name="cat">
+          <option value="">Semua kategori</option>
+          <option value="Food & Beverage" selected>Food &amp; Beverage</option>
+        </select>
+      </div>
+
+      <div class="field col-2" data-enh="subcat">
+        <label for="sub">Sub Kategori</label>
+        <select id="sub" name="sub">
+          <option value="">Pilih sub kategori</option>
+        </select>
+      </div>
+
+      <div class="field col-2">
+        <label for="type">Tipe Brand</label>
+        <select id="type" name="type">
+          <option value="">Pilih tipe brand</option>
+          <option>Lokal</option>
+          <option>Nasional</option>
+          <option>Internasional</option>
+        </select>
+      </div>
+
+      <div class="filter-actions">
+        <button type="button" class="btn btn-ghost" id="resetBtn"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+        <button type="submit" class="btn btn-dark"><i class="bi bi-search"></i> Cari</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- ================= HASIL ================= -->
+<main id="main" class="results container">
+  <div class="results-head">
+    <p class="result-count" id="resultCount" aria-live="polite"></p>
+    <div class="tools">
+      <label class="sr-only" for="sort">Urutkan</label>
+      <select id="sort">
+        <option value="name">Urutkan: Nama A–Z</option>
+        <option value="name-desc">Nama Z–A</option>
+        <option value="outlets">Outlet terbanyak</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="empty" id="empty">
+    <div class="ico"><i class="bi bi-inbox"></i></div>
+    <h3>Brand tidak ditemukan</h3>
+    <p>Coba kata kunci lain atau hapus filter yang aktif.</p>
+    <button class="btn btn-dark" onclick="resetFilters()">Hapus semua filter</button>
+  </div>
+
+  <nav class="pager" id="pager" aria-label="Navigasi halaman"></nav>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Pertamina Brightspace</h4>
+        <p>Platform pencarian lokasi usaha di SPBU Pertamina</p>
+        <div class="social">
+          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" aria-label="X"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4>Tautan</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Explore</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Registrasi Tenant</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Situs Terkait</h4>
+        <ul>
+          <li><a href="#">Pertamina (persero)</a></li>
+          <li><a href="#">Pertamina Patra Niaga</a></li>
+          <li><a href="#">My Pertamina</a></li>
+          <li><a href="#">Kemitraan Patra Niaga</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontak</h4>
+        <p>Gedung Wisma Tugu II Lt. 2<br>Jl. HR. Rasuna Said Kav. C7-9, Setiabudi, Kuningan, Jakarta Selatan</p>
+        <p>Email: pcc135@pertamina.com</p>
+        <p><a href="#">Whistle Blowing System</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Pertamina Patra Niaga. All Rights Reserved.</span>
+      <a href="#">Kebijakan Privasi</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= PANEL ENHANCEMENT ================= -->
+<aside class="devbar" id="devbar" aria-label="Panel enhancement">
+  <div class="devbar-panel">
+    <div class="devbar-head">
+      <div>
+        <b>Enhancement</b>
+        <small>Nyalakan untuk melihat usulan</small>
+      </div>
+      <button class="btn-ghost" style="padding:4px 8px" onclick="document.getElementById('devbar').classList.remove('open')" aria-label="Tutup panel"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="devbar-body">
+      <label class="switch"><input type="checkbox" data-enh-toggle="all" checked><span>Semua enhancement<small>Aktif/nonaktif sekaligus</small></span></label>
+      <label class="switch"><input type="checkbox" data-enh-toggle="count" checked><span>Jumlah hasil<small>“Menampilkan 1–12 dari 31 brand”</small></span></label>
+      <label class="switch"><input type="checkbox" data-enh-toggle="sort" checked><span>Urutkan<small>Nama, outlet terbanyak</small></span></label>
+      <label class="switch"><input type="checkbox" data-enh-toggle="outlets" checked><span>Info outlet &amp; kota<small>Pada kartu brand</small></span></label>
+      <label class="switch"><input type="checkbox" data-enh-toggle="cta" checked><span>CTA “Lihat detail”<small>Kartu bisa diklik menuju profil brand</small></span></label>
+      <label class="switch"><input type="checkbox" data-enh-toggle="save" checked><span>Simpan / favorit<small>Bookmark brand</small></span></label>
+      <label class="switch"><input type="checkbox" data-enh-toggle="subcat" checked><span>Sub kategori dinamis<small>Mengikuti kategori terpilih</small></span></label>
+      <label class="switch"><input type="checkbox" data-enh-toggle="brand" checked><span>Warna brand<small>Tombol &amp; paginasi jadi merah Pertamina</small></span></label>
+    </div>
+    <button class="devbar-reset" onclick="location.reload()">Muat ulang (reset)</button>
+    <div class="devbar-note">Data outlet/kota = dummy untuk demo tata letak. Logo = placeholder monogram.</div>
+  </div>
+  <button class="devbar-toggle" onclick="document.getElementById('devbar').classList.toggle('open')" aria-expanded="false">
+    <span class="dot"></span> Enhancement
+  </button>
+</aside>
+
+<script src="assets/brands.js"></script>
+<script>
+/* ============================================================
+   DATA BRAND
+   Nama & kategori diambil dari halaman asli (31 brand).
+   `sub`, `type`, `outlets`, `city` = DUMMY untuk demo filter/enhancement.
+   Untuk logo asli: logo: "https://servicefile-nfr.patraniaga.com/api/file/data/?id=…"
+   ============================================================ */
+const BRANDS = window.BRANDS;
+
+/* ============================================================
+   STATE & UTIL
+   ============================================================ */
+const PER_PAGE = 12;
+const state = { q:"", cat:"Food & Beverage", sub:"", type:"", sort:"name", page:1, saved:new Set() };
+
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const norm = s => (s||"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+
+const PALETTE = ["#0f766e","#1d4ed8","#b45309","#7c3aed","#be123c","#0369a1","#4d7c0f","#9a3412"];
+function colorFor(name){
+  let h=0; for (const c of name) h = (h*31 + c.charCodeAt(0)) % 997;
+  return PALETTE[h % PALETTE.length];
+}
+function initials(name){
+  const parts = name.replace(/[^A-Za-z0-9 ]/g," ").split(/\s+/).filter(Boolean);
+  if (parts.length === 1) return parts[0].slice(0,2).toUpperCase();
+  return (parts[0][0] + parts[1][0]).toUpperCase();
+}
+
+/* ============================================================
+   FILTER & SORT
+   ============================================================ */
+function applyFilters(){
+  const q = norm(state.q);
+  let list = BRANDS.filter(b => {
+    const okQ    = !q || norm(b.name).includes(q) || norm(b.sub).includes(q);
+    const okCat  = !state.cat  || b.cat === state.cat;
+    const okSub  = !state.sub  || b.sub === state.sub;
+    const okType = !state.type || b.type === state.type;
+    return okQ && okCat && okSub && okType;
+  });
+
+  if (state.sort === "name")      list.sort((a,b)=>a.name.localeCompare(b.name,"id",{sensitivity:"base"}));
+  if (state.sort === "name-desc") list.sort((a,b)=>b.name.localeCompare(a.name,"id",{sensitivity:"base"}));
+  if (state.sort === "outlets")   list.sort((a,b)=>b.outlets - a.outlets);
+  return list;
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function render(){
+  const list = applyFilters();
+  const total = list.length;
+  const pages = Math.max(1, Math.ceil(total / PER_PAGE));
+  state.page = Math.min(state.page, pages);
+
+  const start = (state.page - 1) * PER_PAGE;
+  const pageItems = list.slice(start, start + PER_PAGE);
+
+  // kartu
+  $("#grid").innerHTML = pageItems.map(b => {
+    const logo = b.logo
+      ? `<img src="${b.logo}" alt="${b.name}" loading="lazy">`
+      : `<div class="monogram" style="background:${colorFor(b.name)}" aria-hidden="true">${initials(b.name)}</div>`;
+    const isSaved = state.saved.has(b.name);
+    return `
+      <article class="card">
+        <button class="save ${isSaved?'on':''}" data-save="${b.name}" aria-label="Simpan ${b.name}" aria-pressed="${isSaved}">
+          <i class="bi ${isSaved?'bi-bookmark-fill':'bi-bookmark'}"></i>
+        </button>
+        <div class="logo-box">${logo}</div>
+        <h3><a href="brand-detail.html?id=${b.id}">${b.name}</a></h3>
+        <p class="cat">${b.cat}</p>
+        <div class="meta">
+          <span><i class="bi bi-shop"></i> ${b.outlets} outlet</span>
+          <span class="dot">•</span>
+          <span><i class="bi bi-geo-alt"></i> ${b.city}</span>
+        </div>
+        <div class="cta"><a href="brand-detail.html?id=${b.id}">Lihat detail <i class="bi bi-arrow-right"></i></a></div>
+      </article>`;
+  }).join("");
+
+  // empty state
+  $("#empty").style.display = total === 0 ? "block" : "none";
+  $("#grid").style.display = total === 0 ? "none" : "grid";
+
+  // hitungan
+  const from = total ? start + 1 : 0;
+  const to = Math.min(start + PER_PAGE, total);
+  $("#resultCount").innerHTML = `Menampilkan <b>${from}–${to}</b> dari <b>${total}</b> brand` +
+    (state.sub ? ` · sub kategori <b>${state.sub}</b>` : "");
+
+  // paginasi
+  const pager = $("#pager");
+  if (pages <= 1){ pager.innerHTML = ""; return; }
+  let html = `<button ${state.page===1?'disabled':''} data-page="${state.page-1}" aria-label="Sebelumnya"><i class="bi bi-chevron-left"></i></button>`;
+  for (let i=1;i<=pages;i++){
+    html += `<button data-page="${i}" ${i===state.page?'aria-current="page"':''}>${i}</button>`;
+  }
+  html += `<button ${state.page===pages?'disabled':''} data-page="${state.page+1}" aria-label="Berikutnya"><i class="bi bi-chevron-right"></i></button>`;
+  pager.innerHTML = html;
+}
+
+/* ============================================================
+   EVENT
+   ============================================================ */
+let t;
+$("#q").addEventListener("input", e => {
+  clearTimeout(t);
+  t = setTimeout(()=>{ state.q = e.target.value; state.page = 1; render(); }, 180);
+});
+$("#cat").addEventListener("change", e => { state.cat = e.target.value; state.sub=""; state.page=1; syncSub(); render(); });
+$("#sub").addEventListener("change", e => { state.sub = e.target.value; state.page=1; render(); });
+$("#type").addEventListener("change", e => { state.type = e.target.value; state.page=1; render(); });
+$("#sort").addEventListener("change", e => { state.sort = e.target.value; state.page=1; render(); });
+
+$("#filterForm").addEventListener("submit", e => { e.preventDefault(); state.page=1; render(); });
+$("#resetBtn").addEventListener("click", resetFilters);
+
+$("#pager").addEventListener("click", e => {
+  const btn = e.target.closest("button[data-page]");
+  if (!btn || btn.disabled) return;
+  state.page = Number(btn.dataset.page);
+  render();
+  document.getElementById("main").scrollIntoView({behavior:"smooth", block:"start"});
+});
+
+$("#grid").addEventListener("click", e => {
+  const save = e.target.closest("[data-save]");
+  if (!save) return;
+  const name = save.dataset.save;
+  state.saved.has(name) ? state.saved.delete(name) : state.saved.add(name);
+  render();
+});
+
+function resetFilters(){
+  state.q=""; state.sub=""; state.type=""; state.page=1;
+  state.cat = "Food & Beverage";
+  $("#q").value=""; $("#sub").value=""; $("#type").value=""; $("#cat").value="Food & Beverage";
+  render();
+}
+
+function syncSub(){
+  const subs = [...new Set(BRANDS.filter(b=>!state.cat||b.cat===state.cat).map(b=>b.sub))].sort();
+  $("#sub").innerHTML = `<option value="">Pilih sub kategori</option>` + subs.map(s=>`<option>${s}</option>`).join("");
+}
+syncSub();
+
+/* ============================================================
+   PANEL ENHANCEMENT
+   ============================================================ */
+const FLAGS = {
+  count:  "enh-count",
+  sort:   "enh-sort",
+  outlets:"enh-outlets",
+  cta:    "enh-cta",
+  save:   "enh-save",
+  subcat: "enh-subcat",
+  brand:  "enh-btn enh-pager brand-pager"
+};
+
+function setFlag(key, on){
+  (FLAGS[key]||"").split(" ").filter(Boolean).forEach(c=>document.body.classList.toggle(c, on));
+}
+function allFlags(on){
+  Object.keys(FLAGS).forEach(k=>setFlag(k,on));
+  $$("[data-enh-toggle]").forEach(cb=>{ if(cb.dataset.enhToggle!=="all") cb.checked = on; });
+  $('[data-enh-toggle="all"]').checked = on;
+}
+
+$$("[data-enh-toggle]").forEach(cb => {
+  cb.addEventListener("change", () => {
+    const key = cb.dataset.enhToggle;
+    if (key === "all") allFlags(cb.checked);
+    else setFlag(key, cb.checked);
+  });
+});
+
+/* sub kategori hanya tampil saat enhancement aktif */
+const subField = document.querySelector('[data-enh="subcat"]');
+function updateSubVisibility(){
+  subField.style.display = document.body.classList.contains("enh-subcat") ? "" : "none";
+}
+const obs = new MutationObserver(updateSubVisibility);
+obs.observe(document.body, {attributes:true, attributeFilter:["class"]});
+
+/* init */
+document.body.classList.add("enhanced");
+Object.keys(FLAGS).forEach(k=>setFlag(k,true));
+updateSubVisibility();
+render();
+</script>
+</body>
+</html>
