@@ -307,9 +307,8 @@ body.enh-btn .btn-dark:hover{filter:brightness(.92)}
     <ul class="nav-links">
       <li><a href="home.html">Beranda</a></li>
       <li><a href="#">Jelajahi Lokasi</a></li>
-      <li><a href="#">Tenant</a></li>
+      <li><a href="mitra.html" aria-current="page">Tenant</a></li>
       <li><a href="#">Tentang Kami</a></li>
-      <li><a href="#" aria-current="page">Brand</a></li>
     </ul>
 
     <div class="nav-account" id="accountBox">
@@ -462,7 +461,6 @@ body.enh-btn .btn-dark:hover{filter:brightness(.92)}
       <label class="switch"><input type="checkbox" data-enh-toggle="count" checked><span>Jumlah hasil<small>“Menampilkan 1–12 dari 31 brand”</small></span></label>
       <label class="switch"><input type="checkbox" data-enh-toggle="sort" checked><span>Urutkan<small>Nama, outlet terbanyak</small></span></label>
       <label class="switch"><input type="checkbox" data-enh-toggle="outlets" checked><span>Info outlet &amp; kota<small>Pada kartu brand</small></span></label>
-      <label class="switch"><input type="checkbox" data-enh-toggle="cta" checked><span>CTA “Lihat detail”<small>Kartu bisa diklik menuju profil brand</small></span></label>
       <label class="switch"><input type="checkbox" data-enh-toggle="save" checked><span>Simpan / favorit<small>Bookmark brand</small></span></label>
       <label class="switch"><input type="checkbox" data-enh-toggle="subcat" checked><span>Sub kategori dinamis<small>Mengikuti kategori terpilih</small></span></label>
       <label class="switch"><input type="checkbox" data-enh-toggle="brand" checked><span>Warna brand<small>Tombol &amp; paginasi jadi merah Pertamina</small></span></label>
@@ -489,7 +487,17 @@ const BRANDS = window.BRANDS;
    STATE & UTIL
    ============================================================ */
 const PER_PAGE = 12;
-const state = { q:"", cat:"Food & Beverage", sub:"", type:"", sort:"name", page:1, saved:new Set() };
+
+/* Kategori mengikuti parameter ?ca= dari halaman Tenant (sama seperti situs asli) */
+const CA_MAP = {
+  "1":"Food & Beverage", "2":"Convenience Store (C-Store)", "3":"Auto Care",
+  "5":"Advertising", "6":"Activation", "8":"Financial Service", "9":"Office",
+  "13":"Fasilitas EBT", "65":"Produk Pertamina", "66":"UMKM", "10":"Other Service"
+};
+const caParam = new URLSearchParams(location.search).get("ca");
+const state = {
+  q:"", cat: CA_MAP[caParam] || "Food & Beverage", sub:"", type:"", sort:"name", page:1, saved:new Set()
+};
 
 const $  = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => [...r.querySelectorAll(s)];
@@ -549,20 +557,29 @@ function render(){
           <i class="bi ${isSaved?'bi-bookmark-fill':'bi-bookmark'}"></i>
         </button>
         <div class="logo-box">${logo}</div>
-        <h3><a href="brand-detail.html?id=${b.id}">${b.name}</a></h3>
+        <h3>${b.name}</h3>
         <p class="cat">${b.cat}</p>
         <div class="meta">
           <span><i class="bi bi-shop"></i> ${b.outlets} outlet</span>
           <span class="dot">•</span>
           <span><i class="bi bi-geo-alt"></i> ${b.city}</span>
         </div>
-        <div class="cta"><a href="brand-detail.html?id=${b.id}">Lihat detail <i class="bi bi-arrow-right"></i></a></div>
       </article>`;
   }).join("");
 
   // empty state
   $("#empty").style.display = total === 0 ? "block" : "none";
   $("#grid").style.display = total === 0 ? "none" : "grid";
+
+  if (total === 0) {
+    const bedaKategori = state.cat && state.cat !== "Food & Beverage";
+    $("#empty h3").textContent = bedaKategori
+      ? "Belum ada data contoh untuk kategori ini"
+      : "Brand tidak ditemukan";
+    $("#empty p").textContent = bedaKategori
+      ? "Data contoh pada mockup baru berisi brand Food & Beverage. Di produksi, daftar diambil dari master brand."
+      : "Coba kata kunci lain atau hapus filter yang aktif.";
+  }
 
   // hitungan
   const from = total ? start + 1 : 0;
@@ -626,6 +643,12 @@ function syncSub(){
 }
 syncSub();
 
+/* dropdown kategori: semua kategori dari CA_MAP, terpilih sesuai ?ca= */
+$("#cat").innerHTML = '<option value="">Semua kategori</option>' +
+  [...new Set(Object.values(CA_MAP))]
+    .map(c => `<option${c === state.cat ? " selected" : ""}>${c}</option>`)
+    .join("");
+
 /* ============================================================
    PANEL ENHANCEMENT
    ============================================================ */
@@ -633,7 +656,6 @@ const FLAGS = {
   count:  "enh-count",
   sort:   "enh-sort",
   outlets:"enh-outlets",
-  cta:    "enh-cta",
   save:   "enh-save",
   subcat: "enh-subcat",
   brand:  "enh-btn enh-pager brand-pager"
