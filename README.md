@@ -1,44 +1,53 @@
 # Mockup Brightspace
 
-Replika halaman Brightspace untuk eksplorasi enhancement. Navigasi dibuat **sama seperti situs asli**: Beranda · Jelajahi Lokasi · Tenant · Tentang Kami.
+Replika sederhana halaman Brightspace. Navigasi sama seperti situs asli: **Beranda · Jelajahi Lokasi · Tenant · Tentang Kami**.
 
 ## Halaman
 
-| File | Status | Isi |
-|---|---|---|
-| `home.html` | Replika beranda | Hero + pencarian (Cari Kota / Cari Kode), rekomendasi lahan, kota, lahan baru, mitra tenant, promo, CTA |
-| `mitra.html` | **Replika `/mitra` (Tenant)** | Hero, 3 kartu tipe mitra, 11 kategori bidang usaha, logo wall 30 brand, CTA "Siap Buka Usaha" |
-| `list-brand.html` | Replika `/list/brand` | Daftar brand per kategori (`?ca=`), paginasi, kartu bisa diklik, panel Enhancement |
-| `brand-detail.html` | **Detail tenant** | Profil brand, deskripsi + sumber, jumlah outlet, dan daftar SPBU tempat brand menyewa lahan |
+| File | Isi |
+|---|---|
+| `home.html` | Beranda: hero + pencarian, rekomendasi lahan, kota, lahan baru, mitra tenant, promo |
+| `mitra.html` | Replika `/mitra` (Tenant): hero, 3 kartu tipe mitra, 11 kategori bidang usaha, logo wall, CTA |
+| `list-brand.html` | **Daftar brand sederhana** — tabel Nama Brand · Nama Perusahaan · Kategori Brand |
 
-Brand **tidak** ada di navigasi — sesuai situs asli, semua diakses lewat **Tenant**: `mitra.html → kategori → list-brand.html → klik brand → brand-detail.html`.
+Tidak ada halaman detail brand dan **tidak ada klik per baris**. Semua data langsung terlihat di tabel.
 
 ## Alur
 
 ```
-home.html
-  └─ menu "Tenant" → mitra.html
-       └─ klik kategori (mis. Auto Care) → list-brand.html?ca=3
-            └─ klik brand → brand-detail.html?id=auto-dazzling
+home.html → menu "Tenant" → mitra.html → klik kategori → list-brand.html?ca=3
 ```
 
-## Detail tenant (`brand-detail.html`)
+Kategori di halaman Tenant hanya memfilter tabel (`?ca=`). Contoh: `list-brand.html?ca=3` menampilkan 8 brand Auto Care.
 
-| Bagian | Isi |
+## Daftar brand (`list-brand.html`)
+
+- Kolom: **No · Nama Brand · Nama Perusahaan · Kategori Brand**
+- Pencarian nama brand/perusahaan dan filter kategori (opsional)
+- Tanpa paginasi — semua baris ditampilkan (75 brand)
+- Tanpa panel enhancement
+
+### Isi kolom Nama Perusahaan
+
+Terisi untuk brand yang terverifikasi, misalnya:
+
+| Brand | Perusahaan |
 |---|---|
-| Header | Nama, kategori, sub, tipe, chip "Mitra aktif NFR Pertamina", deskripsi + **link sumber** |
-| Statistik | Outlet di SPBU (dummy) · Total gerai nasional (sumber brand) · SPBU terpasang · Kota |
-| **SPBU tempat brand beroperasi** | Daftar SPBU berdasarkan **nama area** + label "Outlet aktif" |
-| Sidebar | Headline "Brand ini sudah bertumbuh di SPBU Pertamina", CTA **Ajukan Brand Anda** + **Lihat Lahan Tersedia** |
-| Breadcrumb | Beranda → Tenant → kategori → brand |
+| KFC | PT Fast Food Indonesia Tbk |
+| Excelso | PT Excelso Multi Rasa |
+| Roti'O | PT Sebastian Citra Indonesia |
+| Dunkin' Donuts | PT Diamond Donuts Internasional |
+| Alfamart | PT Sumber Alfaria Trijaya Tbk |
+| Indomaret | PT Indomarco Prismatama |
+| Bank BCA | PT Bank Central Asia Tbk |
 
-Section **Kebutuhan lahan dihapus** supaya tidak menampilkan angka dummy sebagai data sewa. Info ketersediaan lahan juga tidak ditampilkan di sini — section ini murni rekam jejak brand.
+Sisanya ditandai **“—”** dan perlu dilengkapi dari master data kemitraan. Datanya ada di `assets/brands.js` (objek `COMPANY`), tinggal tambah satu baris per brand.
 
-## Data per kategori
+## Data brand
 
-Nama brand diambil dari `brightspace.pertamina.com/list/brand?Ca=…`:
+Nama brand & kategori diambil dari `brightspace.pertamina.com/list/brand?Ca=…`:
 
-| Kategori | ca | Jumlah brand |
+| Kategori | ca | Jumlah |
 |---|---|---|
 | Food & Beverage | 1 | 31 |
 | Convenience Store (C-Store) | 2 | 11 |
@@ -46,31 +55,13 @@ Nama brand diambil dari `brightspace.pertamina.com/list/brand?Ca=…`:
 | Financial Service | 8 | 12 |
 | Office | 9 | 1 |
 | Other Service | 10 | 12 |
-| Advertising / Activation / Fasilitas EBT / Produk Pertamina / UMKM | 5, 6, 13, 65, 66 | **0 — kosong juga di situs asli** |
+| Advertising / Activation / Fasilitas EBT / Produk Pertamina / UMKM | 5, 6, 13, 65, 66 | 0 (kosong juga di situs asli) |
 
-Klik kategori kosong (mis. `?ca=6`) akan menampilkan pesan "Belum ada brand pada kategori ini".
+## Aset
 
-## Yang dummy
+`assets/app.css` (style bersama), `assets/bootstrap-icons.css` + `assets/fonts/` (ikon lokal), `assets/mitra.webp` (hero Tenant), `assets/brand/*.webp` (3 kartu tipe mitra), `assets/mitra/*.webp` (ikon 11 kategori), `assets/BrightSpace.webp`, `assets/spbu.webp`, `assets/list-header.webp`.
 
-- **Logo brand** = monogram inisial.
-- **Jumlah outlet di SPBU, jumlah SPBU, kota** = angka contoh.
-- **Nama SPBU** (SPBU Jatinangor, SPBU Cikini, dst) = nama area ilustratif.
-- **Sub kategori & tipe brand** = contoh.
-- **Deskripsi resmi** baru terisi untuk 7 brand (KFC, Dunkin', Excelso, Roti'O, Holland Bakery, Kopi Kenangan, Pizza Hut); sisanya menampilkan status "belum tersedia" + link situs resmi (tidak dikarang).
-- Logo wall di `mitra.html` memakai teks, karena aset asli berupa placeholder.
-
-## Panel Enhancement (`list-brand.html`)
-
-Alat bantu review, bukan bagian situs asli. Default semua aktif.
-
-| Toggle | Usulan |
-|---|---|
-| Jumlah hasil | "Menampilkan 1–12 dari 31 brand" |
-| Urutkan | Nama A–Z, Z–A, outlet terbanyak |
-| Info outlet & kota | Meta pada kartu |
-| Simpan / favorit | Bookmark |
-| Sub kategori dinamis | Opsi mengikuti kategori |
-| Warna brand | Tombol & paginasi merah Pertamina |
+`brand-detail.html` versi lama disimpan di `F:\benchmark-nfr\arsip-brand\` (tidak dipakai).
 
 ## Deploy
 

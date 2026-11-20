@@ -168,6 +168,30 @@ const RAW_BRANDS = RAW_BRANDS_FNB.concat(RAW_BRANDS_OTHER);
 
 const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 
+/* Nama perusahaan — terisi untuk brand yang sudah terverifikasi.
+   Sisanya "—" dan dilengkapi dari master data kemitraan. */
+const COMPANY = {
+  "KFC": "PT Fast Food Indonesia Tbk",
+  "Excelso": "PT Excelso Multi Rasa",
+  "Roti'O": "PT Sebastian Citra Indonesia",
+  "Dunkin' Donuts": "PT Diamond Donuts Internasional",
+  "BURGER KING": "PT Sari Burger Indonesia",
+  "Mc Donald": "PT Rekso Nasional Food",
+  "PIZZA HUT DELIVERY": "PT Sarimelati Kencana Tbk",
+  "Alfamart": "PT Sumber Alfaria Trijaya Tbk",
+  "Minimarket Alfamidi": "PT Midi Utama Indonesia Tbk",
+  "Indomaret": "PT Indomarco Prismatama",
+  "Circle K": "PT Circleka Indonesia Utama",
+  "FAMILYMART": "PT Fajar Mitra Indah",
+  "Bank BCA": "PT Bank Central Asia Tbk",
+  "Bank BNI": "PT Bank Negara Indonesia (Persero) Tbk",
+  "Bank BRI": "PT Bank Rakyat Indonesia (Persero) Tbk",
+  "Bank BTN": "PT Bank Tabungan Negara (Persero) Tbk",
+  "Bank BSI": "PT Bank Syariah Indonesia Tbk",
+  "Bank CIMB NIAGA": "PT Bank CIMB Niaga Tbk",
+  "J&T Express": "PT Global Jet Express"
+};
+
 window.BRANDS = RAW_BRANDS.map((b, i) => {
   /* Jumlah SPBU per brand: 4–7, dipilih deterministik supaya contohnya konsisten.
      Daftar ini menggambarkan SPBU tempat brand MENYEWA lahan, bukan lahan tersedia. */
@@ -176,6 +200,7 @@ window.BRANDS = RAW_BRANDS.map((b, i) => {
   return {
     ...b,
     id: slug(b.name),
+    company: COMPANY[b.name] || "—",
     spbu,
     city: spbu[0].city,
     spbuCount: spbu.length
