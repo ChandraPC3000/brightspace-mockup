@@ -1,59 +1,67 @@
 # Mockup Brightspace
 
-Replika halaman Brightspace untuk eksplorasi enhancement. Struktur navigasi dibuat **sama seperti situs asli**: Beranda · Jelajahi Lokasi · Tenant · Tentang Kami.
+Replika halaman Brightspace untuk eksplorasi enhancement. Navigasi dibuat **sama seperti situs asli**: Beranda · Jelajahi Lokasi · Tenant · Tentang Kami.
 
 ## Halaman
 
 | File | Status | Isi |
 |---|---|---|
 | `home.html` | Replika beranda | Hero + pencarian (Cari Kota / Cari Kode), rekomendasi lahan, kota, lahan baru, mitra tenant, promo, CTA |
-| **`mitra.html`** | **Replika `/mitra` (Tenant)** | Hero, "Berbagai Jenis Usaha Tersedia" (3 kartu tipe mitra), "Mitra Berdasarkan Bidang Usaha" (11 kategori), logo wall 30 brand, CTA "Siap Buka Usaha" |
-| `list-brand.html` | Replika `/list/brand` | Tujuan klik kategori dari halaman Tenant (`?ca=`), grid 31 brand F&B, paginasi, panel Enhancement |
+| `mitra.html` | **Replika `/mitra` (Tenant)** | Hero, 3 kartu tipe mitra, 11 kategori bidang usaha, logo wall 30 brand, CTA "Siap Buka Usaha" |
+| `list-brand.html` | Replika `/list/brand` | Daftar brand per kategori (`?ca=`), paginasi, kartu bisa diklik, panel Enhancement |
+| `brand-detail.html` | **Detail tenant** | Profil brand, deskripsi + sumber, jumlah outlet, dan daftar SPBU tempat brand menyewa lahan |
 
-**Brand tidak lagi ada di navigasi.** Di situs asli, daftar brand memang diakses lewat **Tenant → kategori**, bukan menu tersendiri. Jadi `list-brand.html` tetap ada sebagai halaman turunan, persis seperti alur aslinya.
-
-`brand-detail.html` (usulan tambahan) dipindah ke `F:\benchmark-nfr\arsip-brand\` — tidak dipakai di situs.
+Brand **tidak** ada di navigasi — sesuai situs asli, semua diakses lewat **Tenant**: `mitra.html → kategori → list-brand.html → klik brand → brand-detail.html`.
 
 ## Alur
 
 ```
-home.html → menu "Tenant" → mitra.html → klik kategori (mis. Food & Beverage)
-          → list-brand.html?ca=1
+home.html
+  └─ menu "Tenant" → mitra.html
+       └─ klik kategori (mis. Auto Care) → list-brand.html?ca=3
+            └─ klik brand → brand-detail.html?id=auto-dazzling
 ```
 
-## Section Tenant (mitra.html)
+## Detail tenant (`brand-detail.html`)
 
 | Bagian | Isi |
 |---|---|
-| Hero | "Raih Peluang Usaha dan Keuntungan dengan Mitra Andalan" + subjudul + CTA **Ajukan Kemitraan** |
-| Jenis usaha | 3 kartu: **Mitra Internasional, Nasional, Lokal** (gambar `assets/brand/*.webp`) dengan overlay merah |
-| Bidang usaha | 11 kategori dengan ikon asli (`assets/mitra/*.webp`), masing-masing menuju `list-brand.html?ca=N` |
-| Logo wall | 30 nama brand/lembaga (Alfamart, Bank BCA, Bank Mandiri, dst) — di situs asli berupa gambar placeholder, di sini teks |
-| CTA | "Siap Buka Usaha di SPBU Pertamina?" + tombol **Daftar Jadi Mitra** |
+| Header | Nama, kategori, sub, tipe, chip "Mitra aktif NFR Pertamina", deskripsi + **link sumber** |
+| Statistik | Outlet di SPBU (dummy) · Total gerai nasional (sumber brand) · SPBU terpasang · Kota |
+| **SPBU tempat brand beroperasi** | Daftar SPBU berdasarkan **nama area** + label "Outlet aktif" |
+| Sidebar | Headline "Brand ini sudah bertumbuh di SPBU Pertamina", CTA **Ajukan Brand Anda** + **Lihat Lahan Tersedia** |
+| Breadcrumb | Beranda → Tenant → kategori → brand |
 
-Semua CTA mengarah ke portal registrasi tenant Kemitraan Patra Niaga (URL diambil dari situs asli).
+Section **Kebutuhan lahan dihapus** supaya tidak menampilkan angka dummy sebagai data sewa. Info ketersediaan lahan juga tidak ditampilkan di sini — section ini murni rekam jejak brand.
 
-## Aset
+## Data per kategori
 
-| File | Keterangan |
-|---|---|
-| `assets/app.css` | Stylesheet bersama (navbar, hero, footer, kartu) |
-| `assets/bootstrap-icons.css` + `assets/fonts/` | Ikon lokal, tetap tampil tanpa internet |
-| `assets/mitra.webp` | Hero halaman Tenant |
-| `assets/brand/*.webp` | Gambar 3 kartu tipe mitra |
-| `assets/mitra/*.webp` | Ikon 11 kategori bidang usaha |
-| `assets/BrightSpace.webp`, `assets/spbu.webp`, `assets/list-header.webp` | Logo, hero beranda, hero list |
+Nama brand diambil dari `brightspace.pertamina.com/list/brand?Ca=…`:
 
-## Data & batasan
+| Kategori | ca | Jumlah brand |
+|---|---|---|
+| Food & Beverage | 1 | 31 |
+| Convenience Store (C-Store) | 2 | 11 |
+| Auto Care | 3 | 8 |
+| Financial Service | 8 | 12 |
+| Office | 9 | 1 |
+| Other Service | 10 | 12 |
+| Advertising / Activation / Fasilitas EBT / Produk Pertamina / UMKM | 5, 6, 13, 65, 66 | **0 — kosong juga di situs asli** |
 
-- Nama brand pada `list-brand.html` (31 brand F&B) dan kartu lahan di beranda memakai data yang benar-benar tampil di situs asli.
-- **Halaman Tenant tidak memuat angka** — sama seperti aslinya (hanya kategori, tipe mitra, dan logo wall).
-- Data contoh hanya tersedia untuk kategori **Food & Beverage**. Klik kategori lain akan menampilkan pesan "Belum ada data contoh untuk kategori ini" (bukan error).
-- Logo wall memakai teks, bukan logo gambar, karena aset aslinya berupa placeholder.
+Klik kategori kosong (mis. `?ca=6`) akan menampilkan pesan "Belum ada brand pada kategori ini".
+
+## Yang dummy
+
+- **Logo brand** = monogram inisial.
+- **Jumlah outlet di SPBU, jumlah SPBU, kota** = angka contoh.
+- **Nama SPBU** (SPBU Jatinangor, SPBU Cikini, dst) = nama area ilustratif.
+- **Sub kategori & tipe brand** = contoh.
+- **Deskripsi resmi** baru terisi untuk 7 brand (KFC, Dunkin', Excelso, Roti'O, Holland Bakery, Kopi Kenangan, Pizza Hut); sisanya menampilkan status "belum tersedia" + link situs resmi (tidak dikarang).
+- Logo wall di `mitra.html` memakai teks, karena aset asli berupa placeholder.
 
 ## Panel Enhancement (`list-brand.html`)
 
-Alat bantu review, bukan bagian situs asli. Default semua aktif; tombol **Semua enhancement** mematikan semuanya.
+Alat bantu review, bukan bagian situs asli. Default semua aktif.
 
 | Toggle | Usulan |
 |---|---|

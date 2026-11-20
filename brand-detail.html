@@ -1,0 +1,411 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Detail Brand — Mockup Brightspace</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23c8102e'/%3E%3Ctext x='32' y='45' font-family='Arial' font-size='38' font-weight='bold' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+  body{padding-top:0}
+
+  /* ---- banner halaman usulan ---- */
+  .proposal-bar{background:#0f2b3d;color:#fff;font-size:13px;padding:10px 0}
+  .proposal-bar .container{display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap}
+  .proposal-bar .tag{background:#37d67a;color:#06301a;font-weight:700;font-size:11px;padding:2px 8px;border-radius:999px;letter-spacing:.4px}
+  .proposal-bar button{background:none;border:0;color:rgba(255,255,255,.7);cursor:pointer;font-size:16px}
+
+  /* ---- header brand ---- */
+  .brand-hero{background:#fff;border-bottom:1px solid var(--line);padding:24px 0 0}
+  .brand-head{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
+  .brand-logo-lg{width:132px;height:132px;border-radius:18px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:44px;letter-spacing:-1px;flex:0 0 auto}
+  .brand-meta{flex:1;min-width:260px}
+  .brand-meta h1{margin:0 0 6px;font-size:32px;letter-spacing:-.6px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+  .chip{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:#eef2f6;color:#33475b}
+  .chip.green{background:#e7f8ef;color:#067647}
+  .chip.red{background:var(--brand-soft);color:#9f1239}
+  .brand-meta p.lead{margin:0;color:var(--muted);font-size:14.5px;max-width:660px}
+  .source-line{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin-top:8px;flex-wrap:wrap}
+  .source-line a{color:var(--brand);font-weight:600}
+  .brand-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .icon-btn{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);background:#fff;border-radius:6px;cursor:pointer;color:#52606d}
+  .icon-btn:hover{background:#f6f8fa;color:var(--ink)}
+
+  .brand-tabs{display:flex;gap:24px;margin-top:22px;border-top:1px solid var(--line);overflow-x:auto}
+  .brand-tabs a{padding:14px 0;font-size:14px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap}
+  .brand-tabs a[aria-current="true"]{color:var(--ink);border-bottom-color:var(--brand)}
+
+  /* ---- layout ---- */
+  .detail-wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:28px;padding:28px 0 56px;align-items:start}
+  .panel-card{background:#fff;border:1px solid #edf1f5;border-radius:8px;padding:22px;box-shadow:var(--shadow-sm);margin-bottom:20px}
+  .panel-card h2{margin:0 0 6px;font-size:19px}
+  .panel-card h3{margin:18px 0 6px;font-size:15px}
+  .panel-card p{margin:0 0 10px;color:#3b4a59;font-size:14.5px}
+  .panel-card ul{margin:6px 0 0;padding-left:18px;color:#3b4a59;font-size:14.5px}
+  .desc-source{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin-top:2px}
+  .desc-source a{color:var(--brand);font-weight:600}
+  .fallback-note{background:#fff8e6;border:1px solid #f5e0a3;color:#7a5b00;font-size:12.5px;padding:8px 10px;border-radius:6px;margin:8px 0 0}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
+  .stat{background:#f8fafc;border:1px solid #eef2f6;border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:2px}
+  .stat b{font-size:22px;line-height:1.1}
+  .stat span{font-size:12px;color:var(--muted)}
+  .stat a{font-size:11.5px;font-weight:600;color:var(--brand);margin-top:4px}
+  .dummy{font-size:10.5px;color:#9aa7b3}
+
+  /* ---- daftar SPBU ---- */
+  .spbu{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #eef2f6}
+  .spbu:last-child{border-bottom:0}
+  .spbu .pin{width:52px;height:52px;border-radius:8px;background:#eef6f5;display:grid;place-items:center;color:var(--green);font-size:20px}
+  .spbu h4{margin:0 0 2px;font-size:14.5px}
+  .spbu p{margin:0;font-size:12.5px;color:var(--muted)}
+  .spbu .right{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+  .spbu .right a{font-size:13px;font-weight:600;color:var(--brand);white-space:nowrap}
+  .pill{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:#e7f8ef;color:#067647}
+  .pill.full{background:#f2f4f7;color:#475467}
+
+  .map-ph{height:200px;border-radius:8px;background:
+      radial-gradient(circle at 30% 30%, #dff0ea 0 12%, transparent 13%),
+      radial-gradient(circle at 70% 60%, #dbeafe 0 10%, transparent 11%),
+      linear-gradient(#eef4f8,#e7eef4);
+    border:1px solid #e1e9f0;display:grid;place-items:center;color:#7f93a6;font-size:13px;margin:14px 0 4px;position:relative;overflow:hidden}
+  .map-ph .pin-dot{position:absolute;color:var(--brand);font-size:18px}
+
+  .gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+  .gallery div{aspect-ratio:4/3;border-radius:6px;background:linear-gradient(135deg,#e8eff5,#f3f7fa);display:grid;place-items:center;color:#a9bccb}
+
+  .side-card{background:#fff;border:1px solid #edf1f5;border-radius:8px;padding:20px;box-shadow:var(--shadow-card);position:sticky;top:96px}
+  .side-card h3{margin:0 0 6px;font-size:16px}
+  .side-card p{margin:0 0 14px;font-size:13.5px;color:var(--muted)}
+  .side-card .btn{width:100%;margin-bottom:8px}
+  .side-row{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:8px 0;border-top:1px solid #eef2f6;color:#3b4a59}
+  .side-row span:first-child{color:var(--muted)}
+  .side-note{font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.5}
+
+  .related{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+  .related a{background:#fff;border:1px solid #edf1f5;border-radius:8px;padding:14px;text-align:center;box-shadow:var(--shadow-sm);transition:.15s}
+  .related a:hover{transform:translateY(-2px);border-color:#cfdde8}
+  .related .mono{width:64px;height:64px;border-radius:14px;margin:0 auto 10px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:20px}
+  .related b{display:block;font-size:14px}
+  .related small{color:var(--muted)}
+
+  @media (max-width:1000px){
+    .detail-wrap{grid-template-columns:1fr}
+    .side-card{position:static}
+    .stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .gallery,.related{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media (max-width:560px){
+    .brand-logo-lg{width:96px;height:96px;font-size:32px}
+    .brand-meta h1{font-size:26px}
+    .stat-grid{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Lewati ke konten</a>
+
+<div class="proposal-bar" id="proposalBar">
+  <div class="container">
+    <div><span class="tag">USULAN</span> Halaman detail tenant: deskripsi dari situs resmi brand, jumlah outlet, dan daftar SPBU tempat brand ini menyewa lahan.</div>
+    <button onclick="document.getElementById('proposalBar').remove()" aria-label="Tutup"><i class="bi bi-x-lg"></i></button>
+  </div>
+</div>
+
+<nav class="navbar" id="navbar" style="position:sticky;top:0">
+  <div class="container">
+    <a class="brand-logo" href="home.html" aria-label="Brightspace — beranda">
+      <img src="assets/BrightSpace.webp" alt="Brightspace"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="fallback" style="display:none">brightspace<small>by PERTAMINA</small></span>
+    </a>
+    <button class="nav-toggle" aria-label="Buka menu" aria-expanded="false"
+      onclick="document.getElementById('navbar').classList.toggle('open');this.setAttribute('aria-expanded',document.getElementById('navbar').classList.contains('open'))">
+      <i class="bi bi-list"></i>
+    </button>
+    <ul class="nav-links">
+      <li><a href="home.html">Beranda</a></li>
+      <li><a href="#">Jelajahi Lokasi</a></li>
+      <li><a href="mitra.html" aria-current="page">Tenant</a></li>
+      <li><a href="#">Tentang Kami</a></li>
+    </ul>
+    <div class="nav-account">
+      <div class="who"><span>Selamat Datang,</span><b>Veneta Indonesia</b></div>
+      <div class="avatar" aria-hidden="true"><i class="bi bi-person-circle"></i></div>
+    </div>
+  </div>
+</nav>
+
+<header class="brand-hero">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb" style="color:var(--muted)">
+      <a href="home.html">Beranda</a> <i class="bi bi-chevron-right" style="font-size:10px"></i>
+      <a href="mitra.html">Tenant</a> <i class="bi bi-chevron-right" style="font-size:10px"></i>
+      <a href="#" id="crumbCat">Kategori</a> <i class="bi bi-chevron-right" style="font-size:10px"></i>
+      <span id="crumbName">Brand</span>
+    </nav>
+
+    <div class="brand-head">
+      <div class="brand-logo-lg" id="brandMono">–</div>
+      <div class="brand-meta">
+        <h1 id="brandName">Memuat…</h1>
+        <div class="chips" id="brandChips"></div>
+        <p class="lead" id="brandDesc">Memuat deskripsi…</p>
+        <div class="source-line" id="sourceLine"></div>
+        <div class="brand-actions">
+          <a class="btn btn-brand" href="https://kemitraan.patraniaga.com/register/tenant?Service=qboqd57QyIwZhAuOHF-ZbYXu3QfM9pmEyd-0adBmMVlXCcTkwJOKodIr-BCRx1Eo" target="_blank" rel="noopener">Ajukan Brand Anda <i class="bi bi-arrow-right"></i></a>
+          <a class="btn btn-light" href="#lokasi"><i class="bi bi-shop"></i> Lihat SPBU brand ini</a>
+          <button class="icon-btn" aria-label="Simpan brand"><i class="bi bi-bookmark"></i></button>
+          <button class="icon-btn" aria-label="Bagikan brand"><i class="bi bi-share"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="brand-tabs">
+      <a href="#tentang" aria-current="true">Tentang</a>
+      <a href="#lokasi">Lokasi di SPBU</a>
+      <a href="#galeri">Galeri</a>
+      <a href="#serupa">Brand serupa</a>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="container">
+  <div class="detail-wrap">
+
+    <div>
+      <section class="panel-card" id="tentang">
+        <h2 id="aboutTitle">Tentang brand</h2>
+        <p id="aboutDesc"></p>
+        <div class="desc-source" id="aboutSource"></div>
+        <div id="fallbackNote"></div>
+
+        <div class="stat-grid">
+          <div class="stat">
+            <b id="statOutlets">–</b>
+            <span>Outlet di SPBU <span class="dummy">(dummy)</span></span>
+            <a href="https://kemitraan.patraniaga.com/" target="_blank" rel="noopener">Lihat di Kemitraan <i class="bi bi-box-arrow-up-right"></i></a>
+          </div>
+          <div class="stat">
+            <b id="statTotal">–</b>
+            <span>Total gerai nasional</span>
+            <a href="#" id="statTotalSrc" target="_blank" rel="noopener" hidden>Sumber brand <i class="bi bi-box-arrow-up-right"></i></a>
+          </div>
+          <div class="stat"><b id="statSpbu">–</b><span>SPBU terpasang <span class="dummy">(dummy)</span></span></div>
+          <div class="stat"><b id="statCities">–</b><span>Kota</span></div>
+        </div>
+
+        <h3>Kategori mitra</h3>
+        <p class="muted small" id="catLine"></p>
+      </section>
+
+      <section class="panel-card" id="lokasi">
+        <h2>SPBU tempat brand ini beroperasi</h2>
+        <p class="muted small">Daftar SPBU tempat brand menyewa lahan — bukan daftar lahan yang masih tersedia.</p>
+        <div class="map-ph" role="img" aria-label="Peta sebaran outlet (ilustrasi)">
+          <i class="bi bi-map" style="font-size:28px"></i> Peta sebaran outlet
+          <i class="bi bi-geo-alt-fill pin-dot" style="left:30%;top:40%"></i>
+          <i class="bi bi-geo-alt-fill pin-dot" style="left:58%;top:56%"></i>
+          <i class="bi bi-geo-alt-fill pin-dot" style="left:74%;top:32%"></i>
+        </div>
+        <div id="spbuList"></div>
+      </section>
+
+      <section class="panel-card" id="galeri">
+        <h2>Galeri</h2>
+        <p class="muted small">Foto gerai dan contoh desain (placeholder).</p>
+        <div class="gallery">
+          <div><i class="bi bi-image" style="font-size:22px"></i></div>
+          <div><i class="bi bi-image" style="font-size:22px"></i></div>
+          <div><i class="bi bi-image" style="font-size:22px"></i></div>
+          <div><i class="bi bi-image" style="font-size:22px"></i></div>
+        </div>
+      </section>
+
+      <section id="serupa">
+        <h2 style="font-size:19px;margin:0 0 12px">Brand serupa</h2>
+        <div class="related" id="related"></div>
+      </section>
+    </div>
+
+    <aside>
+      <div class="side-card">
+        <h3>Brand ini sudah bertumbuh di SPBU Pertamina</h3>
+        <p>Brand ini membuka outlet di lahan NFR Pertamina. Brand Anda bisa menjadi berikutnya — untuk outlet pertama maupun ekspansi outlet baru di lokasi bertraffic tinggi.</p>
+        <a class="btn btn-brand" href="https://kemitraan.patraniaga.com/register/tenant?Service=qboqd57QyIwZhAuOHF-ZbYXu3QfM9pmEyd-0adBmMVlXCcTkwJOKodIr-BCRx1Eo" target="_blank" rel="noopener">Ajukan Brand Anda</a>
+        <a class="btn btn-light" href="home.html">Lihat Lahan Tersedia</a>
+        <p class="small muted" style="margin:2px 0 10px">Sudah jadi mitra? Ajukan outlet baru lewat portal yang sama. Belum? Daftarkan brand Anda untuk mulai.</p>
+        <div class="side-row"><span>Kategori</span><b id="sideCat">–</b></div>
+        <div class="side-row"><span>Tipe brand</span><b id="sideType">–</b></div>
+        <div class="side-row"><span>Jumlah SPBU <span class="dummy">(dummy)</span></span><b id="sideSpbu">–</b></div>
+        <div class="side-row"><span>Status brand</span><b style="color:#067647">Mitra aktif NFR</b></div>
+        <div class="side-note">Pengajuan brand baru dilakukan lewat portal Kemitraan Patra Niaga. Angka SPBU &amp; outlet di SPBU masih dummy sampai integrasi data kemitraan tersedia.</div>
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Pertamina Brightspace</h4>
+        <p>Platform pencarian lokasi usaha di SPBU Pertamina</p>
+        <div class="social">
+          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" aria-label="X"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4>Tautan</h4>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="#">Explore</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Registrasi Tenant</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Situs Terkait</h4>
+        <ul>
+          <li><a href="#">Pertamina (persero)</a></li>
+          <li><a href="#">Pertamina Patra Niaga</a></li>
+          <li><a href="#">My Pertamina</a></li>
+          <li><a href="#">Kemitraan Patra Niaga</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontak</h4>
+        <p>Gedung Wisma Tugu II Lt. 2<br>Jl. HR. Rasuna Said Kav. C7-9, Setiabudi, Kuningan, Jakarta Selatan</p>
+        <p>Email: pcc135@pertamina.com</p>
+        <p><a href="#">Whistle Blowing System</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Pertamina Patra Niaga. All Rights Reserved.</span>
+      <a href="#">Kebijakan Privasi</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/brands.js"></script>
+<script>
+/* ============================================================
+   Halaman detail brand — dirender dari ?id= pada URL
+   ============================================================ */
+const params = new URLSearchParams(location.search);
+const slugParam = params.get("id");
+const brand = window.BRANDS.find(b => b.id === slugParam) || window.BRANDS.find(b => b.name === "Kopi Kenangan");
+
+const el = id => document.getElementById(id);
+
+/* ---------- header ---------- */
+document.title = brand.name + " — Brightspace";
+el("crumbName").textContent = brand.name;
+
+/* breadcrumb: Tenant → kategori → brand (kategori menaut balik ke daftar) */
+const CA_BY_CAT = {
+  "Food & Beverage": 1, "Convenience Store (C-Store)": 2, "Auto Care": 3,
+  "Advertising": 5, "Activation": 6, "Financial Service": 8, "Office": 9,
+  "Fasilitas EBT": 13, "Produk Pertamina": 65, "UMKM": 66, "Other Service": 10
+};
+el("crumbCat").textContent = brand.cat;
+el("crumbCat").href = CA_BY_CAT[brand.cat] ? `list-brand.html?ca=${CA_BY_CAT[brand.cat]}` : "list-brand.html";
+el("brandName").textContent = brand.name;
+el("brandMono").textContent = brandInitials(brand.name);
+el("brandMono").style.background = brandColor(brand.name);
+
+el("brandChips").innerHTML = [
+  `<span class="chip">${brand.cat}</span>`,
+  `<span class="chip">${brand.sub}</span>`,
+  `<span class="chip">${brand.type}</span>`,
+  `<span class="chip green"><i class="bi bi-check-circle"></i> Mitra aktif NFR Pertamina</span>`
+].join("");
+
+if (brand.desc) {
+  el("brandDesc").textContent = brand.desc;
+  el("sourceLine").innerHTML = brand.source
+    ? `<i class="bi bi-link-45deg"></i> Sumber: <a href="${brand.source.url}" target="_blank" rel="noopener">${brand.source.label} <i class="bi bi-box-arrow-up-right"></i></a>`
+    : `<i class="bi bi-info-circle"></i> Deskripsi internal Pertamina`;
+} else {
+  el("brandDesc").textContent = "Deskripsi singkat brand belum tersedia.";
+  el("sourceLine").innerHTML = brand.web
+    ? `<i class="bi bi-link-45deg"></i> Situs resmi: <a href="${brand.web.url}" target="_blank" rel="noopener">${brand.web.label} <i class="bi bi-box-arrow-up-right"></i></a>`
+    : `<i class="bi bi-exclamation-circle"></i> Situs resmi belum terverifikasi`;
+}
+
+/* ---------- tentang ---------- */
+el("aboutTitle").textContent = "Tentang " + brand.name;
+el("aboutDesc").textContent = brand.desc || "Deskripsi resmi belum tersedia untuk brand ini.";
+el("aboutSource").innerHTML = brand.desc && brand.source
+  ? `<i class="bi bi-link-45deg"></i> Diambil dari <a href="${brand.source.url}" target="_blank" rel="noopener">${brand.source.label}</a> · 18 Nov 2026`
+  : "";
+el("fallbackNote").innerHTML = brand.desc ? "" : `<div class="fallback-note">
+  <i class="bi bi-info-circle"></i> Deskripsi belum bisa diambil otomatis.
+  ${brand.web ? `Lengkapi manual dari <a href="${brand.web.url}" target="_blank" rel="noopener">${brand.web.label}</a>.` : "Situs resmi brand belum terverifikasi."}
+</div>`;
+
+el("statOutlets").textContent = brand.outlets;
+el("statTotal").textContent = brand.total ? brand.total.split(" ")[0] : "–";
+el("statTotal").nextElementSibling.textContent = brand.total ? "Total gerai nasional" : "Total gerai (belum ada data)";
+if (brand.total && brand.source) {
+  const src = el("statTotalSrc");
+  src.hidden = false; src.href = brand.source.url;
+}
+el("statSpbu").textContent = brand.spbuCount;
+
+el("statCities").textContent = new Set(brand.spbu.map(s => s.city)).size;
+el("catLine").textContent = `${brand.cat} · ${brand.sub} · ${brand.type.toLowerCase()}`;
+
+/* ---------- daftar SPBU (nama area, bukan nomor) ---------- */
+el("spbuList").innerHTML = brand.spbu.map(s => `
+  <div class="spbu">
+    <div class="pin"><i class="bi bi-fuel-pump"></i></div>
+    <div>
+      <h4>${s.name}</h4>
+      <p>${s.city}</p>
+    </div>
+    <div class="right">
+      <span class="pill">Outlet aktif</span>
+    </div>
+  </div>`).join("");
+
+/* ---------- sidebar ---------- */
+el("sideCat").textContent = brand.cat + " · " + brand.sub;
+el("sideType").textContent = brand.type;
+el("sideSpbu").textContent = brand.spbuCount + " SPBU";
+
+/* ---------- brand serupa ---------- */
+const related = window.BRANDS
+  .filter(b => b.sub === brand.sub && b.id !== brand.id)
+  .slice(0, 3);
+
+el("related").innerHTML = related.map(b => `
+  <a href="brand-detail.html?id=${b.id}">
+    <div class="mono" style="background:${brandColor(b.name)}">${brandInitials(b.name)}</div>
+    <b>${b.name}</b><small>${b.sub}</small>
+  </a>`).join("") + `
+  <a href="list-brand.html">
+    <div class="mono" style="background:#0369a1"><i class="bi bi-grid"></i></div>
+    <b>Semua tenant</b><small>${window.BRANDS.length} brand</small>
+  </a>`;
+
+/* ---------- tab anchor aktif ---------- */
+document.querySelectorAll(".brand-tabs a").forEach(a => {
+  a.addEventListener("click", () => {
+    document.querySelectorAll(".brand-tabs a").forEach(x => x.removeAttribute("aria-current"));
+    a.setAttribute("aria-current", "true");
+  });
+});
+</script>
+</body>
+</html>

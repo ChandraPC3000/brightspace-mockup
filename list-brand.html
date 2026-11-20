@@ -165,7 +165,7 @@ input:focus, select:focus{border-color:#9db3c4; outline:none; box-shadow:0 0 0 3
 .card .cat{margin:0; font-size:13px; color:var(--muted)}
 .card .meta{display:none; margin-top:10px; font-size:12px; color:var(--muted); gap:10px; justify-content:center; flex-wrap:wrap}
 .card .meta .dot{opacity:.45}
-.card .cta{display:none; margin-top:14px}
+.card .cta{display:block; margin-top:14px}
 .card .cta a{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--brand)}
 .card .cta a:hover{text-decoration:underline}
 .card .save{
@@ -216,7 +216,6 @@ body.enh-count .result-count{display:block}
 body.enh-sort .tools{display:flex}
 .tools{display:none}
 body.enh-outlets .card .meta{display:flex}
-body.enh-cta .card .cta{display:block}
 body.enh-save .card .save{display:grid; place-items:center}
 body.enh-pager.brand-pager .pager button{color:var(--brand)}
 body.enh-pager.brand-pager .pager button[aria-current="page"]{background:var(--brand); border-color:var(--brand); color:#fff}
@@ -557,13 +556,14 @@ function render(){
           <i class="bi ${isSaved?'bi-bookmark-fill':'bi-bookmark'}"></i>
         </button>
         <div class="logo-box">${logo}</div>
-        <h3>${b.name}</h3>
+        <h3><a href="brand-detail.html?id=${b.id}">${b.name}</a></h3>
         <p class="cat">${b.cat}</p>
         <div class="meta">
           <span><i class="bi bi-shop"></i> ${b.outlets} outlet</span>
           <span class="dot">•</span>
           <span><i class="bi bi-geo-alt"></i> ${b.city}</span>
         </div>
+        <div class="cta"><a href="brand-detail.html?id=${b.id}">Lihat detail <i class="bi bi-arrow-right"></i></a></div>
       </article>`;
   }).join("");
 
@@ -574,10 +574,10 @@ function render(){
   if (total === 0) {
     const bedaKategori = state.cat && state.cat !== "Food & Beverage";
     $("#empty h3").textContent = bedaKategori
-      ? "Belum ada data contoh untuk kategori ini"
+      ? "Belum ada brand pada kategori ini"
       : "Brand tidak ditemukan";
     $("#empty p").textContent = bedaKategori
-      ? "Data contoh pada mockup baru berisi brand Food & Beverage. Di produksi, daftar diambil dari master brand."
+      ? "Kategori ini belum memiliki brand terdaftar — sama seperti kondisi di situs asli untuk beberapa kategori."
       : "Coba kata kunci lain atau hapus filter yang aktif.";
   }
 

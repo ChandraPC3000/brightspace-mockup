@@ -34,7 +34,7 @@ const SPBU_POOL = [
   { name: "SPBU Sam Ratulangi",  city: "Makassar",          lahan: 3, status: "Tersedia" }
 ];
 
-const RAW_BRANDS = [
+const RAW_BRANDS_FNB = [
   { name:"Amanda Brownies", cat:"Food & Beverage", sub:"Bakery", type:"Lokal", outlets:12, total:null,
     desc:null, source:null, web:{ label:"amandabrownies.com", url:"https://amandabrownies.com/" } },
   { name:"bengawan solo coffee", cat:"Food & Beverage", sub:"Coffee", type:"Nasional", outlets:48, total:null,
@@ -105,6 +105,66 @@ const RAW_BRANDS = [
   { name:"TRUFFLE BELLY", cat:"Food & Beverage", sub:"Snack", type:"Lokal", outlets:1, total:null,
     desc:null, source:null, web:null }
 ];
+
+/* Nama brand kategori lain diambil dari situs asli (/list/brand?Ca=…).
+   Deskripsi resmi belum diambil, jadi desc = null. */
+const RAW_BRANDS_OTHER = [
+  /* ---------- Convenience Store (C-Store) ---------- */
+  { name:"Alfamart", cat:"Convenience Store (C-Store)", sub:"Minimarket", type:"Nasional", outlets:40, total:null, desc:null, source:null, web:null },
+  { name:"Apotek Pasfarma", cat:"Convenience Store (C-Store)", sub:"Apotek", type:"Nasional", outlets:12, total:null, desc:null, source:null, web:null },
+  { name:"Bright by Alfamart", cat:"Convenience Store (C-Store)", sub:"Minimarket", type:"Nasional", outlets:8, total:null, desc:null, source:null, web:null },
+  { name:"Bright By Indomaret", cat:"Convenience Store (C-Store)", sub:"Minimarket", type:"Nasional", outlets:8, total:null, desc:null, source:null, web:null },
+  { name:"Bright Store", cat:"Convenience Store (C-Store)", sub:"Minimarket", type:"Lokal", outlets:35, total:null, desc:null, source:null, web:null },
+  { name:"Circle K", cat:"Convenience Store (C-Store)", sub:"Minimarket", type:"Internasional", outlets:14, total:null, desc:null, source:null, web:null },
+  { name:"Coco Mart", cat:"Convenience Store (C-Store)", sub:"Minimarket", type:"Lokal", outlets:6, total:null, desc:null, source:null, web:null },
+  { name:"FAMILYMART", cat:"Convenience Store (C-Store)", sub:"Minimarket", type:"Internasional", outlets:18, total:null, desc:null, source:null, web:null },
+  { name:"Indomaret", cat:"Convenience Store (C-Store)", sub:"Minimarket", type:"Nasional", outlets:45, total:null, desc:null, source:null, web:null },
+  { name:"Minimarket Alfamidi", cat:"Convenience Store (C-Store)", sub:"Minimarket", type:"Nasional", outlets:22, total:null, desc:null, source:null, web:null },
+  { name:"Optik Loka", cat:"Convenience Store (C-Store)", sub:"Optik", type:"Lokal", outlets:3, total:null, desc:null, source:null, web:null },
+
+  /* ---------- Auto Care ---------- */
+  { name:"Auto Dazzling", cat:"Auto Care", sub:"Detailing", type:"Lokal", outlets:5, total:null, desc:null, source:null, web:null },
+  { name:"AUTOGLAZE", cat:"Auto Care", sub:"Detailing", type:"Internasional", outlets:7, total:null, desc:null, source:null, web:null },
+  { name:"Champions Autocare", cat:"Auto Care", sub:"Bengkel", type:"Nasional", outlets:9, total:null, desc:null, source:null, web:null },
+  { name:"Enduro Express", cat:"Auto Care", sub:"Bengkel", type:"Nasional", outlets:6, total:null, desc:null, source:null, web:null },
+  { name:"J-Health", cat:"Auto Care", sub:"Bengkel", type:"Lokal", outlets:4, total:null, desc:null, source:null, web:null },
+  { name:"Jetwash", cat:"Auto Care", sub:"Car Wash", type:"Nasional", outlets:11, total:null, desc:null, source:null, web:null },
+  { name:"Pertamina Fastron Auto Service (Nasional)", cat:"Auto Care", sub:"Bengkel", type:"Nasional", outlets:15, total:null, desc:null, source:null, web:null },
+  { name:"PLANET BAN", cat:"Auto Care", sub:"Ban", type:"Nasional", outlets:8, total:null, desc:null, source:null, web:null },
+
+  /* ---------- Financial Service ---------- */
+  { name:"ATM Bank Danamon", cat:"Financial Service", sub:"ATM", type:"Nasional", outlets:20, total:null, desc:null, source:null, web:null },
+  { name:"Bank Aceh", cat:"Financial Service", sub:"Bank", type:"Nasional", outlets:6, total:null, desc:null, source:null, web:null },
+  { name:"Bank BCA", cat:"Financial Service", sub:"Bank", type:"Nasional", outlets:24, total:null, desc:null, source:null, web:null },
+  { name:"Bank Bengkulu", cat:"Financial Service", sub:"Bank", type:"Nasional", outlets:3, total:null, desc:null, source:null, web:null },
+  { name:"Bank Bjb", cat:"Financial Service", sub:"Bank", type:"Nasional", outlets:9, total:null, desc:null, source:null, web:null },
+  { name:"Bank BNI", cat:"Financial Service", sub:"Bank", type:"Nasional", outlets:22, total:null, desc:null, source:null, web:null },
+  { name:"BANK BPD BALI", cat:"Financial Service", sub:"Bank", type:"Nasional", outlets:4, total:null, desc:null, source:null, web:null },
+  { name:"Bank BRI", cat:"Financial Service", sub:"Bank", type:"Nasional", outlets:26, total:null, desc:null, source:null, web:null },
+  { name:"Bank BSI", cat:"Financial Service", sub:"Bank", type:"Nasional", outlets:18, total:null, desc:null, source:null, web:null },
+  { name:"Bank BTN", cat:"Financial Service", sub:"Bank", type:"Nasional", outlets:12, total:null, desc:null, source:null, web:null },
+  { name:"Bank CIMB NIAGA", cat:"Financial Service", sub:"Bank", type:"Nasional", outlets:10, total:null, desc:null, source:null, web:null },
+  { name:"Bank DIY", cat:"Financial Service", sub:"Bank", type:"Nasional", outlets:5, total:null, desc:null, source:null, web:null },
+
+  /* ---------- Office ---------- */
+  { name:"Rumah123", cat:"Office", sub:"Properti", type:"Nasional", outlets:2, total:null, desc:null, source:null, web:null },
+
+  /* ---------- Other Service ---------- */
+  { name:"Biru", cat:"Other Service", sub:"Layanan", type:"Lokal", outlets:3, total:null, desc:null, source:null, web:null },
+  { name:"DHL", cat:"Other Service", sub:"Logistik", type:"Internasional", outlets:7, total:null, desc:null, source:null, web:null },
+  { name:"Grab", cat:"Other Service", sub:"Transportasi", type:"Internasional", outlets:9, total:null, desc:null, source:null, web:null },
+  { name:"J&T Express", cat:"Other Service", sub:"Logistik", type:"Nasional", outlets:11, total:null, desc:null, source:null, web:null },
+  { name:"Lalamove", cat:"Other Service", sub:"Logistik", type:"Internasional", outlets:6, total:null, desc:null, source:null, web:null },
+  { name:"Lion Parcel", cat:"Other Service", sub:"Logistik", type:"Nasional", outlets:8, total:null, desc:null, source:null, web:null },
+  { name:"LONDRE", cat:"Other Service", sub:"Laundry", type:"Lokal", outlets:4, total:null, desc:null, source:null, web:null },
+  { name:"Mailshop Plus", cat:"Other Service", sub:"Logistik", type:"Lokal", outlets:2, total:null, desc:null, source:null, web:null },
+  { name:"Maxim", cat:"Other Service", sub:"Transportasi", type:"Internasional", outlets:5, total:null, desc:null, source:null, web:null },
+  { name:"Micropole", cat:"Other Service", sub:"Retail", type:"Lokal", outlets:3, total:null, desc:null, source:null, web:null },
+  { name:"Other Service - Previcy Cuci Helm", cat:"Other Service", sub:"Cuci Helm", type:"Lokal", outlets:2, total:null, desc:null, source:null, web:null },
+  { name:"Other service - Sahabat Laundry", cat:"Other Service", sub:"Laundry", type:"Lokal", outlets:2, total:null, desc:null, source:null, web:null }
+];
+
+const RAW_BRANDS = RAW_BRANDS_FNB.concat(RAW_BRANDS_OTHER);
 
 const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 
